@@ -1,0 +1,49 @@
+﻿@page "/edit-habit"
+@page "/edit-habit/{id:int}"
+@inject HabitService _habitService
+@rendermode @(new InteractiveWebAssemblyRenderMode(prerender:false))
+
+@if (id == null)
+{
+	<h3>Add Habit</h3>
+}
+else
+{
+	<h3>Edit Habit</h3>
+}
+
+
+<EditForm Model="habit" OnSubmit="HandleSubmit" >
+	<div class="m-4">
+		<label for="Name">Habit Name</label>
+		<InputText id="Name" @bind-Value = "habit.Name" class="form-control"> </InputText>
+	</div>
+	<div class="m-4">
+		<label for="Freq">Habit Freq</label>
+		<InputNumber id="Freq" @bind-Value="habit.Frequency" class="form-control"> </InputNumber>
+	</div>
+	<div class="m-4">
+		<label for="Exp">Habit Exp</label>
+		<InputNumber id="Exp" @bind-Value="habit.ExperiencePointsReward" class="form-control"> </InputNumber>
+	</div>
+	<button type="submit" class="btn btn-primary">Save</button>
+</EditForm>
+
+@code {
+
+	[Parameter] public int id { get; set; }
+	public Habit habit { get; set; } = new Habit();
+
+	public async Task HandleSubmit()
+	{
+		if (id != null)
+		{
+			await _habitService.UpdateHabit(id, habit);
+		}
+		else
+		{
+			await _habitService.AddHabit(habit);
+		}
+
+	}
+}

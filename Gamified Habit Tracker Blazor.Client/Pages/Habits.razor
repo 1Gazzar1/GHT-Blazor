@@ -1,0 +1,63 @@
+﻿@page "/habits"
+@inject HabitService _habitService
+@rendermode @(new InteractiveWebAssemblyRenderMode(prerender:false))
+@inject NavigationManager nav
+
+<h3>Habits</h3>
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>Name</th>
+			<th>Freq</th>
+			<th>EXP</th>
+			<th>Status</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach(var habit in habits)
+		{
+			<tr>
+				<td>@habit.HabitID</td>
+				<td>@habit.Name</td>
+				<td>@habit.Frequency</td>
+				<td>@habit.ExperiencePointsReward</td>
+				<td>
+					@if (@habit.Status)
+					{
+						<p>Completed</p>
+					}
+					else
+					{
+						<p>Work in Progess</p>
+					}
+				</td>
+				<td><button class="btn btn-primary" @onclick="() => EditHabit(habit.HabitID)">
+					Edit
+					</button></td>
+			</tr>
+		}
+	</tbody>
+	<button class="btn btn-primary" @onclick="AddHabit">Add Habit</button>
+</table>
+
+
+@code {
+	List<Habit> habits = new List<Habit>();
+
+	protected override async Task OnInitializedAsync()
+	{
+		habits = await _habitService.GetHabits();
+	}
+
+
+	public void EditHabit(int id)
+	{
+		nav.NavigateTo($"/edit-habit/{id}");
+	}
+	public void AddHabit()
+	{
+		nav.NavigateTo($"/edit-habit");
+	}
+}

@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>Gamified Habit Tracker Blazor</RootNamespace>
+    <AssemblyName>$(AssemblyName.Replace(' ', '_'))</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Gamified Habit Tracker Blazor.Client\Pages\Counter.razor.cs" Link="Counter.razor.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Gamified Habit Tracker Blazor.Shared\GamifiedHabitTrackerBlazor.Shared.csproj" />
+    <ProjectReference Include="..\Gamified Habit Tracker Blazor.Client\GamifiedHabitTrackerBlazor.Client.csproj" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.10" />
+  </ItemGroup>
+
+</Project>

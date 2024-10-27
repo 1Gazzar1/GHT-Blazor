@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35327.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GamifiedHabitTrackerBlazor.Shared", "..\Gamified Habit Tracker Blazor.Shared\GamifiedHabitTrackerBlazor.Shared.csproj", "{40F081FB-D6E6-46F0-AB5B-11FF6E711FBD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GamifiedHabitTrackerBlazor", "Gamified Habit Tracker Blazor\GamifiedHabitTrackerBlazor.csproj", "{C1B4BC52-E88B-4630-B579-BEE1D62F75A0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GamifiedHabitTrackerBlazor.Client", "Gamified Habit Tracker Blazor.Client\GamifiedHabitTrackerBlazor.Client.csproj", "{2F40B515-24A1-45D6-ADD0-FB42A27AFE89}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{40F081FB-D6E6-46F0-AB5B-11FF6E711FBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40F081FB-D6E6-46F0-AB5B-11FF6E711FBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40F081FB-D6E6-46F0-AB5B-11FF6E711FBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40F081FB-D6E6-46F0-AB5B-11FF6E711FBD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1B4BC52-E88B-4630-B579-BEE1D62F75A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1B4BC52-E88B-4630-B579-BEE1D62F75A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1B4BC52-E88B-4630-B579-BEE1D62F75A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1B4BC52-E88B-4630-B579-BEE1D62F75A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F40B515-24A1-45D6-ADD0-FB42A27AFE89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F40B515-24A1-45D6-ADD0-FB42A27AFE89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F40B515-24A1-45D6-ADD0-FB42A27AFE89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F40B515-24A1-45D6-ADD0-FB42A27AFE89}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F8FC8C39-A3B3-495C-9349-4FC99B0FC938}
+	EndGlobalSection
+EndGlobal
