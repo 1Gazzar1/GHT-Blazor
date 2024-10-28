@@ -1,0 +1,46 @@
+﻿@rendermode @(new InteractiveWebAssemblyRenderMode(prerender:false))
+@inject UserService _userService
+
+
+<div class="form-container">
+	<h3>Enter your Name & Password</h3>
+	<div class="login">
+
+		<input type="text" id="name" placeholder="Nickname" @bind="Name" />
+
+		<input type="password" id="pwd1" placeholder="Password" @bind = "Password1"/>
+		
+		<input type="password" id="pwd2" placeholder="Confirm Password" @bind="Password2" />
+		
+		<button type="submit" @onclick ="HandleSubmit">Login</button>
+		<p>@Error</p>
+		
+	</div>
+
+</div>
+
+@code{
+	public string Name { get; set; } = "";
+	public string Password1 { get; set; } = "";
+	public string Password2 { get; set; } = "";
+	public string Error { get; set; } = "";
+
+	public async Task HandleSubmit()
+	{
+		if (Password1 == Password2)
+		{
+			var user = new User()
+			{
+				Name = Name,
+				Password = Password1
+			};
+			await _userService.RegisterUser(user);
+		}	
+		else
+		{
+			Password1 = "";
+			Password2 = "";
+			Error = "Please enter the same password";
+		}
+	}
+}

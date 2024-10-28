@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -11,11 +11,28 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Pages\LoginForm.razor.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Pages\LoginForm.razor.css" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.10" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Gamified Habit Tracker Blazor.Shared\GamifiedHabitTrackerBlazor.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Pages\LoginForm.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <Content Update="Pages\Register.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
   </ItemGroup>
 
 </Project>

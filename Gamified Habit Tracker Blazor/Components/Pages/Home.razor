@@ -1,27 +1,24 @@
 ﻿@page "/"
 
-<PageTitle>Home</PageTitle>
-<div class="video-background">
-	<video controls width="1920" height="1080" autoplay loop muted playsinline id="bgVideo">
-		<source src="Assests/LoginBG.mp4" type=video/mp4 />
-	</video>
-	<div class="form-container">
-		<h3>Enter your Name & Password</h3>
-		<div class="login">
-			
-			<input type="text" id="name" placeholder="Username"/>
-			
-			<input type="password" id="pwd" placeholder="Password" />
-
-			<button type="submit" >Login</button>
-		</div>
-
-	</div>
+<PageTitle>Login</PageTitle>
+<div class="img-background">
+	
+	
+	@if (false){
+		<LoginForm></LoginForm>
+	}
+	else
+	{
+		<Register></Register>
+	}
 </div>
 
 @code{
 	private readonly string? password ; 
-
+	private void nav_register(MouseEventArgs e)
+	{
+		throw new NotImplementedException();
+	}
 }
 
 

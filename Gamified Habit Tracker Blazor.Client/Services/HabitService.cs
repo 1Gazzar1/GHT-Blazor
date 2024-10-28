@@ -1,6 +1,4 @@
-﻿using GamifiedHabitTracker.Models;
-
-namespace Gamified_Habit_Tracker_Blazor.Services;
+﻿namespace Gamified_Habit_Tracker_Blazor.Services;
 
 public class HabitService
 {   

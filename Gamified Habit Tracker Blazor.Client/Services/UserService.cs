@@ -10,7 +10,7 @@ public class UserService
 
     public async Task RegisterUser(User user)
     {
-        var response = await _httpClient.PostAsJsonAsync("api",user);
+        var response = await _httpClient.PostAsJsonAsync("api/User",user);
         response.EnsureSuccessStatusCode();
     }
 }
