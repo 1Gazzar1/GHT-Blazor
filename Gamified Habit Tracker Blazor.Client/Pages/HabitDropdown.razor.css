@@ -1,0 +1,54 @@
+﻿.dropdown {
+	width: 80%	;
+	border: none;
+	overflow: hidden;
+	margin : auto;
+	border-radius : 10px;
+}
+
+.dropdown-checkbox {
+	display : none ;
+}
+
+.dropdown-btn {
+	display: block;
+	width: 100%;
+	padding: 10px;
+	background: linear-gradient(90deg, rgb(22, 14, 39, 0.25),rgb(195, 0, 233, 0.25));
+	border : none ;
+	border-bottom: 1px solid white;
+	text-align: left;
+	cursor: pointer;
+	font-size: 25px;
+}
+
+.dropdown-content {
+	max-height: 0;
+	overflow: hidden;
+	background: linear-gradient(90deg, rgb(19, 0, 60, 0.25),rgb(195, 0, 233, 0.25));
+	transition: max-height 0.5s ease;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+.dropdown-checkbox:checked ~ .dropdown-content {
+	max-height: 1000px; 
+}
+
+.habit {
+	display: flex;
+	align-items: center;
+	justify-content: left;
+	width : 100%;
+	gap: 100px;
+	padding: 5px;
+	border-bottom: 1px solid white;
+	font-size: 18px;
+	white-space: break-spaces;
+	background : transparent;
+	transition: background 0.2s ease;
+}
+
+.habit :hover {
+	background: linear-gradient(90deg, rgb(19, 0, 60, 0.3),rgb(195, 0, 233, 0.3));
+}

@@ -11,10 +11,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Pages\HabitDropdown.razor.css" />
     <None Remove="Pages\LoginForm.razor.css" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Pages\HabitDropdown.razor.css" />
     <Content Include="Pages\LoginForm.razor.css" />
   </ItemGroup>
 

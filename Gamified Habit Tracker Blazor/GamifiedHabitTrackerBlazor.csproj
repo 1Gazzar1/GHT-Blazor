@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Components\Pages\test.razor.css" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Include="..\Gamified Habit Tracker Blazor.Client\Pages\Counter.razor.cs" Link="Counter.razor.cs" />
   </ItemGroup>
 

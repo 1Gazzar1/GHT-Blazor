@@ -1,0 +1,42 @@
+﻿
+<div class="dropdown">
+    <label for="dropdownToggle" class="dropdown-btn">@Title</label>
+    <input type="checkbox" id="dropdownToggle" class="dropdown-checkbox">
+  
+  
+    <div class="dropdown-content">
+        @foreach (var habit in Habits)
+        {
+            <div class="habit" >
+                <label style="width : 100%">
+✔ @Count          @habit.Name <input type="checkbox" class="habit-checkbox">
+                </label>
+        
+            </div>
+            
+            Count += 1;
+        }
+        
+        <!--
+            <label class="habit">
+            ✔ 2 <input type="checkbox" class="habit-checkbox">
+        </label>
+        <label class="habit">
+            ✔ 3 <input type="checkbox" class="habit-checkbox">
+        </label>
+        -->
+        
+    </div>
+</div>
+
+@code{
+    [Parameter]
+    public List<Habit>? Habits { get; set; }
+
+    [Parameter]
+    public string? Title { get; set; }
+
+    public int Count { get; set; } = 1;  
+    
+
+}
