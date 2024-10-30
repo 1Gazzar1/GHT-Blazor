@@ -35,12 +35,22 @@
 						<p>Work in Progess</p>
 					}
 				</td>
-				<td><button class="btn btn-primary" @onclick="() => EditHabit(habit.HabitID)">
+				<td>
+					<button class="btn btn-primary" @onclick="() => CompleteHabit(habit.HabitID)">
+						Complete
+					</button>
+					<button class="btn btn-primary" @onclick="() => EditHabit(habit.HabitID)">
 					Edit
-					</button></td>
+					</button>
+				
+					<button class="btn btn-danger" @onclick="() => DeleteHabit(habit.HabitID)">
+						Delete
+					</button>
+				</td>
 			</tr>
 		}
 	</tbody>
+	
 	<button class="btn btn-primary" @onclick="AddHabit">Add Habit</button>
 </table>
 
@@ -61,5 +71,25 @@
 	public void AddHabit()
 	{
 		nav.NavigateTo($"/edit-habit");
+	}
+	public async Task DeleteHabit(int id)
+	{
+		await _habitService.DeleteHabit(id);
+		var habitToDelete = habits.FirstOrDefault(h => h.HabitID == id);
+		if (habitToDelete != null)
+		{
+			habits.Remove(habitToDelete);
+		}
+		StateHasChanged();
+	}
+	public async Task CompleteHabit(int id)
+	{
+		await _habitService.CompleteHabit(id);
+		var habitToComplete = habits.FirstOrDefault(h => h.HabitID == id);
+		if (habitToComplete != null)
+		{
+			habitToComplete.Status = true;
+		}
+		StateHasChanged();
 	}
 }

@@ -2,6 +2,7 @@
 @page "/edit-habit/{id:int}"
 @inject HabitService _habitService
 @rendermode @(new InteractiveWebAssemblyRenderMode(prerender:false))
+@inject NavigationManager nav
 
 @if (id == null)
 {
@@ -31,18 +32,20 @@ else
 
 @code {
 
-	[Parameter] public int id { get; set; }
+	[Parameter] public int? id { get; set; }
 	public Habit habit { get; set; } = new Habit();
 
 	public async Task HandleSubmit()
 	{
 		if (id != null)
 		{
-			await _habitService.UpdateHabit(id, habit);
+			await _habitService.UpdateHabit((int) id, habit);
+			nav.NavigateTo("/habits");
 		}
 		else
 		{
 			await _habitService.AddHabit(habit);
+			nav.NavigateTo("/habits");
 		}
 
 	}
