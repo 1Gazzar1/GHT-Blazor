@@ -30,17 +30,17 @@ public class HabitService
 	}
 	public async Task CompleteHabit(int id)
 	{
-		var response = await _httpClient.PostAsync($"api/{id}/complete",null);
+		var response = await _httpClient.PostAsync($"api/Habit/{id}/complete",null);
 		response.EnsureSuccessStatusCode();
 	}
 	public async Task<int> CurrentStreak(int user_id)
     {
-        var streak = await _httpClient.GetFromJsonAsync<int>($"api/Streak/Current/{user_id}");
+        var streak = await _httpClient.GetFromJsonAsync<int>($"api/Habit/Streak/Current/{user_id}");
         return streak;
     }
 	public async Task<int> HighestStreak(int user_id)
 	{
-		var streak = await _httpClient.GetFromJsonAsync<int>($"api/Streak/Highest/{user_id}");
+		var streak = await _httpClient.GetFromJsonAsync<int>($"api/Habit/Streak/Highest/{user_id}");
 		return streak;
 	}
 }

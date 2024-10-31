@@ -1,4 +1,6 @@
-﻿
+﻿@inject NavigationManager nav
+@inject HabitService _habitService
+
 <div class="dropdown">
     <label for="dropdownToggle" class="dropdown-btn">@Title</label>
     <input type="checkbox" id="dropdownToggle" class="dropdown-checkbox">
@@ -8,23 +10,32 @@
         @foreach (var habit in Habits)
         {
             <div class="habit" >
-                <label style="width : 100%">
-✔ @Count          @habit.Name <input type="checkbox" class="habit-checkbox">
-                </label>
+                <div class="habit-text">
+                    <p>✔ @Count   @habit.Name</p>
+                    <p>@habit.Frequency</p>
+                    <p>EXP :   @habit.ExperiencePointsReward</p>
+                </div>
+                
+               
+                 <div class="habit-buttons">
+                    <button class="habit-button" @onclick="() => CompleteHabit(habit.HabitID)">
+                        <p>Complete</p>
+                    </button>
+                    <button class="habit-button" @onclick="() => EditHabit(habit.HabitID)">
+                        <p>Edit</p>
+                    </button>
+                    <button class="habit-button" @onclick="() => DeleteHabit(habit.HabitID)">
+                        <p>Delete</p>
+                    </button>
+                 </div>
+                
         
             </div>
             
             Count += 1;
         }
         
-        <!--
-            <label class="habit">
-            ✔ 2 <input type="checkbox" class="habit-checkbox">
-        </label>
-        <label class="habit">
-            ✔ 3 <input type="checkbox" class="habit-checkbox">
-        </label>
-        -->
+      
         
     </div>
 </div>
@@ -37,6 +48,42 @@
     public string? Title { get; set; }
 
     public int Count { get; set; } = 1;  
-    
 
+    public void EditHabit(int id)
+    {
+        nav.NavigateTo($"/edit-habit/{id}");
+    }
+    public void AddHabit()
+    {
+        nav.NavigateTo($"/edit-habit");
+    }
+    public async Task DeleteHabit(int id)
+    {
+        await _habitService.DeleteHabit(id);
+        var habitToDelete = Habits.FirstOrDefault(h => h.HabitID == id);
+        if (habitToDelete != null)
+        {
+            Habits.Remove(habitToDelete);
+        }
+        StateHasChanged();
+    }
+    public async Task CompleteHabit(int id)
+    {
+        await _habitService.CompleteHabit(id);
+        var habitToComplete = Habits.FirstOrDefault(h => h.HabitID == id);
+        if (habitToComplete != null)
+        {
+            habitToComplete.Status = true;
+        }
+        StateHasChanged();
+    }
+    protected override Task OnParametersSetAsync()
+    {
+        return base.OnParametersSetAsync();
+    }
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        Count = 1;
+        return base.OnAfterRenderAsync(firstRender);
+    }
 }

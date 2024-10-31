@@ -5,9 +5,9 @@
 
 <h3>Habits</h3>
 
-<HabitDropdown Title="Daily Habits  ▼" Habits="habits"></HabitDropdown>
+<HabitDropdown Title="Daily Habits  ▼" Habits="_Habits"></HabitDropdown>
 
-<table class="table">
+<!--<table class="table">
 	<thead>
 		<tr>
 			<th>ID</th>
@@ -18,7 +18,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		@foreach(var habit in habits)
+		@foreach (var habit in _Habits)
 		{
 			<tr>
 				<td>@habit.HabitID</td>
@@ -52,44 +52,17 @@
 	</tbody>
 	
 	<button class="btn btn-primary" @onclick="AddHabit">Add Habit</button>
-</table>
+</table>-->
 
 
 @code {
-	List<Habit> habits = new List<Habit>();
+	List<Habit> _Habits = new List<Habit>();
 
 	protected override async Task OnInitializedAsync()
 	{
-		habits = await _habitService.GetHabits();
+		_Habits = await _habitService.GetHabits();
 	}
 
 
-	public void EditHabit(int id)
-	{
-		nav.NavigateTo($"/edit-habit/{id}");
-	}
-	public void AddHabit()
-	{
-		nav.NavigateTo($"/edit-habit");
-	}
-	public async Task DeleteHabit(int id)
-	{
-		await _habitService.DeleteHabit(id);
-		var habitToDelete = habits.FirstOrDefault(h => h.HabitID == id);
-		if (habitToDelete != null)
-		{
-			habits.Remove(habitToDelete);
-		}
-		StateHasChanged();
-	}
-	public async Task CompleteHabit(int id)
-	{
-		await _habitService.CompleteHabit(id);
-		var habitToComplete = habits.FirstOrDefault(h => h.HabitID == id);
-		if (habitToComplete != null)
-		{
-			habitToComplete.Status = true;
-		}
-		StateHasChanged();
-	}
+	
 }

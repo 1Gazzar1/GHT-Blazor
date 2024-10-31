@@ -38,17 +38,48 @@
 .habit {
 	display: flex;
 	align-items: center;
-	justify-content: left;
-	width : 100%;
+	justify-content: space-between;
+	width: 100%;
 	gap: 100px;
 	padding: 5px;
 	border-bottom: 1px solid white;
 	font-size: 18px;
 	white-space: break-spaces;
-	background : transparent;
 	transition: background 0.2s ease;
 }
+.habit-text { 
+	display : flex ;
+	flex-direction :row;
+	align-items : center;
+	justify-content : space-between;
 
-.habit :hover {
-	background: linear-gradient(90deg, rgb(19, 0, 60, 0.3),rgb(195, 0, 233, 0.3));
+}
+.habit-text p {
+	width : 100px;
+	margin : 0px 80px;
+	margin-top : 15px;
+	margin-left : 0px;
+	
+}
+.habit:hover {
+	background: linear-gradient(90deg, rgb(19, 0, 60, 0.3),rgb(195, 0, 233, 0.3)) !important;
+}
+
+
+
+.habit-buttons {
+	display: flex;
+	flex-direction: row;
+	justify-content : flex-end;
+
+	gap: 50px;
+	height: 50px;
+}
+	
+.habit-button{
+	width : 100px;
+	border-radius : 10px;
+}
+.habit-button p {
+	margin : auto;
 }
