@@ -3,34 +3,39 @@
 @inject AchievementService _achievementService
 @rendermode @(new InteractiveWebAssemblyRenderMode(prerender:false))
 
-<div class="parent-container">
-	<div class="achievement-page">
-		<h3>Achievements</h3>
-		<div class="Achievements-container">
-			@foreach (var ach in _achievements)
-			{
-				<div class="Achievement">
-					<div class="Achievement-img">
-					</div>
-					<div class="Achievement-details">
-						<h3>@ach.Name</h3>
-						<h5>@ach.Description</h5>
-						<h5>Exp Earned : @ach.PointsForCompletion</h5>
-					</div>
-					<div class="Achievement-completion">
-						@if (@ach.Status)
-						{
-							<h6>Completed !!!</h6>
-							<h6>Date Earned : @ach.DateEarned</h6>
-							<h2>✔️</h2>
-						}
-					</div>
-				</div>
-			}
 
-		</div>
+<div class="achievement-page">
+	<h1>Achievements</h1>
+	<div class="Achievements-container">
+		@foreach (var ach in _achievements)
+		{
+			<div class="Achievement">
+				<div class="Achievement-img">
+				</div>
+				<div class="Achievement-details">
+					<h3>@ach.Name</h3>
+					<h5>@ach.Description</h5>
+					<h5>Exp Earned : @ach.PointsForCompletion</h5>
+				</div>
+				<div class="Achievement-completion">
+					@if (@ach.Status)
+					{
+						<h6>Completed !!!</h6>
+						<h6>Date Earned : @ach.DateEarned</h6>
+						<h2>✅</h2>
+					}
+					else
+					{
+						<h6 style="opacity : 0;">Date Earned : 10/21/2024 10:46:07 PM</h6>
+						<h2>❌</h2>
+					}
+				</div>
+			</div>
+		}
+
 	</div>
 </div>
+
 
 
 @code {
@@ -40,6 +45,7 @@
 
 	protected async override Task OnInitializedAsync()	
 	{
+		// replace with userid
 		_achievements =  await _achievementService.GetAllAchievement(6);
 		await base.OnParametersSetAsync();
 	}

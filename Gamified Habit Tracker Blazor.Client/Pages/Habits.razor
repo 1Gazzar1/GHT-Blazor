@@ -1,68 +1,47 @@
-﻿@page "/habits"
+﻿@page "/Habits"
 @inject HabitService _habitService
 @rendermode @(new InteractiveWebAssemblyRenderMode(prerender:false))
 @inject NavigationManager nav
 
-<h3>Habits</h3>
+<div class="Habits-page">
+	<h1>Habits</h1>
 
-<HabitDropdown Title="Daily Habits  ▼" Habits="_Habits"></HabitDropdown>
+	<HabitDropdown UpdateHabits="RefreshHabits" Title="Daily Habits  ▼" Habits="_NotCompletedHabits" Completed="false"></HabitDropdown>
+	<br /><br /><br /><br />
+	<HabitDropdown UpdateHabits="RefreshHabits" Title="Completed habits  ▼" Habits="_CompletedHabits" Completed="true"></HabitDropdown>
 
-<!--<table class="table">
-	<thead>
-		<tr>
-			<th>ID</th>
-			<th>Name</th>
-			<th>Freq</th>
-			<th>EXP</th>
-			<th>Status</th>
-		</tr>
-	</thead>
-	<tbody>
-		@foreach (var habit in _Habits)
-		{
-			<tr>
-				<td>@habit.HabitID</td>
-				<td>@habit.Name</td>
-				<td>@habit.Frequency</td>
-				<td>@habit.ExperiencePointsReward</td>
-				<td>
-					@if (@habit.Status)
-					{
-						<p>Completed</p>
-					}
-					else
-					{
-						<p>Work in Progess</p>
-					}
-				</td>
-				<td>
-					<button class="btn btn-primary" @onclick="() => CompleteHabit(habit.HabitID)">
-						Complete
-					</button>
-					<button class="btn btn-primary" @onclick="() => EditHabit(habit.HabitID)">
-					Edit
-					</button>
-				
-					<button class="btn btn-danger" @onclick="() => DeleteHabit(habit.HabitID)">
-						Delete
-					</button>
-				</td>
-			</tr>
-		}
-	</tbody>
-	
-	<button class="btn btn-primary" @onclick="AddHabit">Add Habit</button>
-</table>-->
+	<h3>
+		Current Streak :   @Streak    🔥
+		
+	</h3>
+</div>
 
 
 @code {
-	List<Habit> _Habits = new List<Habit>();
+	private List<Habit> _Habits = new List<Habit>();
+	private List<Habit> _CompletedHabits = new List<Habit>();
+	private List<Habit> _NotCompletedHabits = new List<Habit>();
+	public int Streak { get; set; } = 0;
 
 	protected override async Task OnInitializedAsync()
 	{
 		_Habits = await _habitService.GetHabits();
+		_CompletedHabits = await _habitService.GetCompletedHabits(6); // replace with userid
+		_NotCompletedHabits = await _habitService.GetNonCompletedHabits(6); // replace with userid
+		Streak = await _habitService.CurrentStreak(6); //replace with userid
+	}
+	public async Task RefreshHabits()
+	{
+		_CompletedHabits = await _habitService.GetCompletedHabits(6); // replace with userid
+		_NotCompletedHabits = await _habitService.GetNonCompletedHabits(6); // replace with userid
+		Streak = await _habitService.CurrentStreak(6); //replace with userid
+	}
+	protected async override Task OnAfterRenderAsync(bool firstRender)
+	{
+		
+		await base.OnAfterRenderAsync(firstRender);
 	}
 
 
-	
+
 }

@@ -33,7 +33,10 @@ else
 @code {
 
 	[Parameter] public int? id { get; set; }
-	public Habit habit { get; set; } = new Habit();
+	public Habit habit { get; set; } = new Habit()
+	{
+		UserID = 6 //replace with userid
+	};
 
 	public async Task HandleSubmit()
 	{

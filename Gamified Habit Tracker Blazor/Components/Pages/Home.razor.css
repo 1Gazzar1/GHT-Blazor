@@ -1,11 +1,11 @@
 ﻿
 
 .img-background {
-    background-image: url("Assets/bg.png"); /* Path to your image */
-    background-size: cover; /* Ensures the image covers the entire screen */
-    background-position: center; /* Centers the image */
-    background-repeat: no-repeat; /* Prevents tiling */
-    position: fixed; /* Keeps the image fixed during scrolling */
+    background-image: url("Assets/bg.png"); 
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat; 
+    position: fixed; 
     width: 100%;
     height: 101vh;
     overflow: hidden;
