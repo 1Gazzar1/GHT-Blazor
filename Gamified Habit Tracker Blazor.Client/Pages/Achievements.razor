@@ -1,0 +1,47 @@
+﻿@page "/Achievements"
+
+@inject AchievementService _achievementService
+@rendermode @(new InteractiveWebAssemblyRenderMode(prerender:false))
+
+<div class="parent-container">
+	<div class="achievement-page">
+		<h3>Achievements</h3>
+		<div class="Achievements-container">
+			@foreach (var ach in _achievements)
+			{
+				<div class="Achievement">
+					<div class="Achievement-img">
+					</div>
+					<div class="Achievement-details">
+						<h3>@ach.Name</h3>
+						<h5>@ach.Description</h5>
+						<h5>Exp Earned : @ach.PointsForCompletion</h5>
+					</div>
+					<div class="Achievement-completion">
+						@if (@ach.Status)
+						{
+							<h6>Completed !!!</h6>
+							<h6>Date Earned : @ach.DateEarned</h6>
+							<h2>✔️</h2>
+						}
+					</div>
+				</div>
+			}
+
+		</div>
+	</div>
+</div>
+
+
+@code {
+	public List<UserAchievementDTO> _achievements { get; set; } = new List<UserAchievementDTO>();
+
+
+
+	protected async override Task OnInitializedAsync()	
+	{
+		_achievements =  await _achievementService.GetAllAchievement(6);
+		await base.OnParametersSetAsync();
+	}
+}
+

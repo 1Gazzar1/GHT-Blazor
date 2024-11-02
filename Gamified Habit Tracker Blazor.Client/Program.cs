@@ -16,6 +16,7 @@ namespace Gamified_Habit_Tracker_Blazor.Client
 			builder.Services.AddScoped(sp => Http);
 			builder.Services.AddScoped<HabitService>();
 			builder.Services.AddScoped<UserService>();
+			builder.Services.AddScoped<AchievementService>();
 
 			await builder.Build().RunAsync();
         }

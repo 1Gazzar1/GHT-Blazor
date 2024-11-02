@@ -1,0 +1,48 @@
+﻿
+.achievement-page {
+	background: linear-gradient(90deg, rgb(155, 126, 189), rgb(59, 30, 84));
+	overflow: auto;
+	width: 100vw;
+	height: 100vh;
+	position: fixed;
+	top: 0;
+	left: 0;
+	text-align: center;
+}
+
+
+.Achievements-container {
+	display: flex;
+	flex-direction: column;
+	width: 80%;
+	margin: 30px auto;
+	
+}
+.Achievement {
+	display: grid;
+	grid-template-columns: auto 1fr auto; 
+	align-items: center;
+	padding: 1rem;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	gap: 1rem;
+	background: linear-gradient(90deg,rgb(238, 238, 238,0.5),rgb(212, 190, 228,0.5));
+}
+.Achievement:hover {
+	background: linear-gradient(90deg,rgb(238, 238, 238,0.8),rgb(212, 190, 228,0.8));
+}
+.Achievement-img {
+	background-image: url("Assets/placeholder.jpg");
+	width: 150px;
+	height: 150px;
+	background-size: cover;
+	background-position: center;
+	margin-left: 15px;
+	margin-right: 50px;
+}
+.Achievement-details {
+	text-align: left;
+}
+.Achievement-completion {
+	text-align: center;
+}
