@@ -100,8 +100,9 @@
         {
             habitToComplete.Status = true;
             Habits.Remove(habitToComplete);
+            OnUpdateHabit();
         }
-        OnUpdateHabit();
+        
         StateHasChanged();
 
     }

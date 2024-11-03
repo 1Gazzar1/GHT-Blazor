@@ -4,32 +4,37 @@
 @rendermode @(new InteractiveWebAssemblyRenderMode(prerender:false))
 @inject NavigationManager nav
 
-@if (id == null)
-{
-	<h3>Add Habit</h3>
-}
-else
-{
-	<h3>Edit Habit</h3>
-}
+<div class="Edit-Habit-page">
+	@if (id == null)
+	{
+		<h1 style="margin-top:100px">Add a Habit</h1>
+	}
+	else
+	{
+		<h1 style="margin-top:100px">Edit Habit</h1>
+	}
 
+	<div class="habit-form">
+		<EditForm Model="habit" OnSubmit="HandleSubmit">
+			<div>
+				<label for="Name"><h5>Habit Name</h5></label>
+				<input type = "text" id="Name" @bind="habit.Name" class="edit-habit-input"> </input>
+			</div>
+			<div>
+				<label for="Freq"><h5>Habit Freq</h5></label>
+				<input type="number" id="Freq" @bind="habit.Frequency" class="edit-habit-input"> </input>
+			</div>
+			<div>
+				<label for="Exp"><h5>Habit Exp</h5></label>
+				<input type="number" id="Exp" @bind="habit.ExperiencePointsReward" class="edit-habit-input"> </input>
+			</div>
+			<button type="submit" class="btn btn-primary">Save</button>
+		</EditForm>
+	</div>
+	
 
-<EditForm Model="habit" OnSubmit="HandleSubmit" >
-	<div class="m-4">
-		<label for="Name">Habit Name</label>
-		<InputText id="Name" @bind-Value = "habit.Name" class="form-control"> </InputText>
-	</div>
-	<div class="m-4">
-		<label for="Freq">Habit Freq</label>
-		<InputNumber id="Freq" @bind-Value="habit.Frequency" class="form-control"> </InputNumber>
-	</div>
-	<div class="m-4">
-		<label for="Exp">Habit Exp</label>
-		<InputNumber id="Exp" @bind-Value="habit.ExperiencePointsReward" class="form-control"> </InputNumber>
-	</div>
-	<button type="submit" class="btn btn-primary">Save</button>
-</EditForm>
-
+</div>
+	
 @code {
 
 	[Parameter] public int? id { get; set; }
