@@ -8,10 +8,12 @@
 	@if (id == null)
 	{
 		<h1 style="margin-top:100px">Add a Habit</h1>
+		<PageTitle>Adding Habit...</PageTitle>
 	}
 	else
 	{
 		<h1 style="margin-top:100px">Edit Habit</h1>
+		<PageTitle>Editing Habit...</PageTitle>
 	}
 
 	<div class="habit-form">
@@ -19,11 +21,7 @@
 			<div>
 				<label for="Name"><h5>Habit Name</h5></label>
 				<input type = "text" id="Name" @bind="habit.Name" class="edit-habit-input"> </input>
-			</div>
-			<div>
-				<label for="Freq"><h5>Habit Freq</h5></label>
-				<input type="number" id="Freq" @bind="habit.Frequency" class="edit-habit-input"> </input>
-			</div>
+			</div>			
 			<div>
 				<label for="Exp"><h5>Habit Exp</h5></label>
 				<input type="number" id="Exp" @bind="habit.ExperiencePointsReward" class="edit-habit-input"> </input>
