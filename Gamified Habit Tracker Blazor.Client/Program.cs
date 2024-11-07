@@ -13,10 +13,15 @@ namespace Gamified_Habit_Tracker_Blazor.Client
 			{
 				BaseAddress = new Uri("https://localhost:7113/")
 			};
-			builder.Services.AddScoped(sp => Http);
+			builder.Services.AddApiAuthorization();
+			builder.Services.AddScoped(sp => Http);		
 			builder.Services.AddScoped<HabitService>();
 			builder.Services.AddScoped<UserService>();
 			builder.Services.AddScoped<AchievementService>();
+			builder.Services.AddScoped<AuthService>();
+			builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthProvider>();
+
+			builder.Services.AddAuthorizationCore();
 
 			await builder.Build().RunAsync();
         }

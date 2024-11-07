@@ -15,6 +15,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Gamified Habit Tracker Blazor.Shared\GamifiedHabitTrackerBlazor.Shared.csproj" />
     <ProjectReference Include="..\Gamified Habit Tracker Blazor.Client\GamifiedHabitTrackerBlazor.Client.csproj" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="8.0.10" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="8.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.10" />
   </ItemGroup>
 
