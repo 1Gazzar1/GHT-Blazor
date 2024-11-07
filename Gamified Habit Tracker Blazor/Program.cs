@@ -1,5 +1,8 @@
+using Gamified_Habit_Tracker_Blazor.Client;
 using Gamified_Habit_Tracker_Blazor.Client.Pages;
 using Gamified_Habit_Tracker_Blazor.Components;
+using Gamified_Habit_Tracker_Blazor.Services;
+using Microsoft.AspNetCore.Components.Authorization;
 
 namespace Gamified_Habit_Tracker_Blazor
 {
@@ -15,9 +18,16 @@ namespace Gamified_Habit_Tracker_Blazor
             builder.Services.AddRazorComponents()
                 .AddInteractiveWebAssemblyComponents();
 
-			
+            builder.Services.AddCascadingAuthenticationState();
 
-			var app = builder.Build();
+            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7113/") });
+            builder.Services.AddScoped<AuthService>();
+            builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthProvider>();
+            builder.Services.AddAuthorizationCore();
+
+            builder.Services.AddAuthorization();
+
+            var app = builder.Build();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

@@ -1,10 +1,4 @@
-﻿
-using Gamified_Habit_Tracker_Blazor.Services;
-using System.Net.Http;
-using System.Security.Claims;
-using System.Text.Json;
-
-namespace Gamified_Habit_Tracker_Blazor.Client;
+﻿namespace Gamified_Habit_Tracker_Blazor.Client;
 
 public class CustomAuthProvider : AuthenticationStateProvider
 {
@@ -16,7 +10,7 @@ public class CustomAuthProvider : AuthenticationStateProvider
 	}
 	public override async Task<AuthenticationState> GetAuthenticationStateAsync()
 	{
-		var response = await _authService.Login(new LoginDTO());			
+		var response = await _authService.Login(new LoginDTO() { Username = "melamo",Password= "wat up" });			
 		var _token = response._token;
 		//var _token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
 

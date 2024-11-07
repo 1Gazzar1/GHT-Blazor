@@ -1,6 +1,4 @@
-﻿using Gamified_Habit_Tracker_Blazor.Client.Pages;
-using Gamified_Habit_Tracker_Blazor.Shared.DTOs;
-
+﻿
 namespace Gamified_Habit_Tracker_Blazor.Services;
 
 public class AuthService
