@@ -7,8 +7,6 @@
         [Required]
         public string? Name { get; set; }
         [Required]
-        public int Frequency { get; set; } // how many times a week 
-        [Required]
         public DateTime CreatedTime { get; set; } = DateTime.Now;
 
         public DateTime? CompletedTime { get; set; }

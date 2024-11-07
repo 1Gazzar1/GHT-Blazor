@@ -29,7 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Gamified Habit Tracker Blazor.Shared\GamifiedHabitTrackerBlazor.Shared.csproj" />
+    <ProjectReference Include="..\Gamified Habit Tracker Blazor.Shared\GamifiedHabitTrackerBlazor.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>

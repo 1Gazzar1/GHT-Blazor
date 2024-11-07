@@ -1,6 +1,4 @@
 ﻿@page "/"
-@inject AuthenticationStateProvider _authState
-
 
 <PageTitle>Login</PageTitle>
 <div class="img-background">
@@ -16,14 +14,9 @@
 </div>
 
 @code{
-	
-	private string username;
-
-	protected override async Task OnInitializedAsync()
+	private void nav_register(MouseEventArgs e)
 	{
-		var authState = await _authState.GetAuthenticationStateAsync();
-		var user = authState.User;
-		username = user.Identity.IsAuthenticated ? user.Identity.Name : "Guest";
+		throw new NotImplementedException();
 	}
 }
 
