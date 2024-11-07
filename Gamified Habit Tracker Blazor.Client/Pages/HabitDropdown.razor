@@ -4,59 +4,62 @@
 <div class="dropdown">
     <label for="@($"{Title}dropdownToggle")" class="dropdown-btn">@Title</label>
     <input type="checkbox" id="@($"{Title}dropdownToggle")" class="dropdown-checkbox">
-  
-  
+
+
     <div class="dropdown-content">
-        @foreach (var habit in Habits)
+        @if (Habits is not null)
         {
-            <div class="habit" >
-                <div class="habit-text">
-                    <div class="habit-name"><p>✔ @Count   @habit.Name</p></div>                   
-                    <div class="habit-exp"><p>EXP :   @habit.ExperiencePointsReward</p></div>
-                    @if (Completed)
+            @foreach (var habit in Habits)
+            {
+                <div class="habit">
+                    <div class="habit-text">
+                        <div class="habit-name"><p>✔ @Count   @habit.Name</p></div>
+                        <div class="habit-exp"><p>EXP :   @habit.ExperiencePointsReward</p></div>
+                        @if (Completed)
+                        {
+                            <div class="habit-completed-time">
+                                <p> Completed on :  @habit.CompletedTime</p>
+                            </div>
+                        }
+                    </div>
+
+                    @if (!Completed)
                     {
-                        <div class="habit-completed-time">
-                            <p> Completed on :  @habit.CompletedTime</p>
+                        <div class="habit-buttons">
+                            <button class="habit-button complete" @onclick="() => CompleteHabit(habit.HabitID)">
+                                <p>Complete</p>
+                            </button>
+                            <button class="habit-button edit" @onclick="() => EditHabit(habit.HabitID)">
+                                <p>Edit</p>
+                            </button>
+                            <button class="habit-button delete" @onclick="() => DeleteHabit(habit.HabitID)">
+                                <p>Delete</p>
+                            </button>
                         </div>
                     }
+
+
+
                 </div>
-                
-                @if (!Completed)
-                {
-                    <div class="habit-buttons">
-                        <button class="habit-button complete" @onclick="() => CompleteHabit(habit.HabitID)">
-                            <p>Complete</p>
-                        </button>
-                        <button class="habit-button edit" @onclick="() => EditHabit(habit.HabitID)">
-                            <p>Edit</p>
-                        </button>
-                        <button class="habit-button delete" @onclick="() => DeleteHabit(habit.HabitID)">
-                            <p>Delete</p>
-                        </button>
-                    </div>
-                }            
-                
-                
-        
-            </div>
-            
-            Count += 1;
+
+                Count += 1;
+            }
         }
         @if (!Completed)
         {
             <div class="habit">
-                <button class="habit-button add" @onclick ="() => AddHabit()">
+                <button class="habit-button add" @onclick="() => AddHabit()">
                     <p>Add Habit       ✚</p>
                 </button>
             </div>
         }
-        
-      
-        
+
+
+
     </div>
 </div>
 
-@code{
+@code {
     [Parameter]
     public List<Habit>? Habits { get; set; }
 
@@ -69,7 +72,7 @@
     [Parameter]
     public EventCallback UpdateHabits { get; set; }
 
-    public int Count { get; set; } = 1;  
+    public int Count { get; set; } = 1;
 
     public void EditHabit(int id)
     {
@@ -82,10 +85,10 @@
     public async Task DeleteHabit(int id)
     {
         await _habitService.DeleteHabit(id);
-        var habitToDelete = Habits.FirstOrDefault(h => h.HabitID == id);
+        var habitToDelete = Habits?.FirstOrDefault(h => h.HabitID == id);
         if (habitToDelete != null)
         {
-            Habits.Remove(habitToDelete);
+            Habits?.Remove(habitToDelete);
         }
 
         StateHasChanged();
@@ -94,14 +97,14 @@
     public async Task CompleteHabit(int id)
     {
         await _habitService.CompleteHabit(id);
-        var habitToComplete = Habits.FirstOrDefault(h => h.HabitID == id);
+        var habitToComplete = Habits?.FirstOrDefault(h => h.HabitID == id);
         if (habitToComplete != null)
         {
             habitToComplete.Status = true;
-            Habits.Remove(habitToComplete);
+            Habits?.Remove(habitToComplete);
             OnUpdateHabit();
         }
-        
+
         StateHasChanged();
 
     }
@@ -116,6 +119,6 @@
     protected async override Task OnAfterRenderAsync(bool firstRender)
     {
         Count = 1;
-        await  base.OnAfterRenderAsync(firstRender);
+        await base.OnAfterRenderAsync(firstRender);
     }
 }

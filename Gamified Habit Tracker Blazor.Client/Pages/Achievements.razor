@@ -47,7 +47,7 @@
 	protected async override Task OnInitializedAsync()	
 	{
 		// replace with userid
-		_achievements =  await _achievementService.GetAllAchievement(6);
+		_achievements =  await _achievementService.GetAllAchievement(6) ?? new();
 		await base.OnParametersSetAsync();
 	}
 }

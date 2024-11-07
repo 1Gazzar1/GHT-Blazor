@@ -5,15 +5,16 @@
 <div class="form-container">
     <h3>Enter your Name & Password</h3>
     <div class="login">
-        
-        <form @onsubmit="HandleLogin">
-            <input type="text" id="name" @bind="userInfo.Username" placeholder="Username" required />
-            <input type="password" id="pwd" @bind="userInfo.Password" placeholder="Password" required />
-            <button type="submit">Login</button>
-        </form>
+
+    <EditForm Model="userInfo" FormName="LoginForm" OnValidSubmit="HandleLogin">
+        <input type="text" id="name" @bind="userInfo.Username" placeholder="Username" required />
+        <input type="password" id="pwd" @bind="userInfo.Password" placeholder="Password" required />
+        <button type="submit">Login</button>
+    </EditForm>
+
 
         <h6>Don't have an account? <a href="#">Register</a></h6>
-        
+
         <h1>@ErrorMSG</h1>
     </div>
 </div>
@@ -26,9 +27,9 @@
 
     private async Task HandleLogin()
     {
-        Console.WriteLine("HandleLogin triggered");  // This will help us debug
+        Console.WriteLine("HandleLogin triggered");  // Debugging line
 
-        ErrorMSG = "Attempting to log in...";  // Display a message on the page to indicate login started
+        ErrorMSG = "Attempting to log in...";  // Display a message to indicate login started
         token = "debug-token";  // Temporary value for testing
 
         try
@@ -55,7 +56,4 @@
             ErrorMSG = $"Error: {ex.Message}";
         }
     }
-
-
 }
-

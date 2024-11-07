@@ -7,7 +7,7 @@ public class AchievementService
         _httpClient = httpClient;
     }
 
-    public async Task<List<UserAchievementDTO>> GetAllAchievement(int user_id)
+    public async Task<List<UserAchievementDTO>?> GetAllAchievement(int user_id)
     {
         var achievements = await _httpClient.GetFromJsonAsync<List<UserAchievementDTO>>($"api/Achievement/UserAchievements/{user_id}");
         return achievements;
