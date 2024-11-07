@@ -1,10 +1,12 @@
 ﻿@page "/"
+@inject AuthenticationStateProvider _authState
+
 
 <PageTitle>Login</PageTitle>
 <div class="img-background">
 	
 	
-	@if (false){
+	@if (true){
 		<LoginForm></LoginForm>
 	}
 	else
@@ -14,9 +16,14 @@
 </div>
 
 @code{
-	private void nav_register(MouseEventArgs e)
+	
+	private string username;
+
+	protected override async Task OnInitializedAsync()
 	{
-		throw new NotImplementedException();
+		var authState = await _authState.GetAuthenticationStateAsync();
+		var user = authState.User;
+		username = user.Identity.IsAuthenticated ? user.Identity.Name : "Guest";
 	}
 }
 

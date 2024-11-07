@@ -1,17 +1,61 @@
-﻿<div class="form-container">
-	<h3>Enter your Name & Password</h3>
-	<div class="login">
+﻿@inject AuthenticationStateProvider _authState
+@inject AuthService _authService
+@inject NavigationManager Nav
 
-		<input type="text" id="name" placeholder="Username" />
+<div class="form-container">
+    <h3>Enter your Name & Password</h3>
+    <div class="login">
+        
+        <form @onsubmit="HandleLogin">
+            <input type="text" id="name" @bind="userInfo.Username" placeholder="Username" required />
+            <input type="password" id="pwd" @bind="userInfo.Password" placeholder="Password" required />
+            <button type="submit">Login</button>
+        </form>
 
-		<input type="password" id="pwd" placeholder="Password" />
-
-		<button type="submit">Login</button>
-		<h6>Don't have an account ?  <a>register</a> </h6>
-	</div>
-
+        <h6>Don't have an account? <a href="#">Register</a></h6>
+        
+        <h1>@ErrorMSG</h1>
+    </div>
 </div>
+<h1>@token</h1>
 
 @code {
+    public LoginDTO userInfo { get; set; } = new LoginDTO();
+    public string? ErrorMSG { get; set; } = "!";
+    public string? token { get; set; } = "jkljkl";
+
+    private async Task HandleLogin()
+    {
+        Console.WriteLine("HandleLogin triggered");  // This will help us debug
+
+        ErrorMSG = "Attempting to log in...";  // Display a message on the page to indicate login started
+        token = "debug-token";  // Temporary value for testing
+
+        try
+        {
+            // Delay for testing to see if UI updates
+            await Task.Delay(1000);
+
+            // Perform login request
+            var response = await _authService.Login(userInfo);
+            token = response._token;
+
+            if (!string.IsNullOrEmpty(token))
+            {
+                ((CustomAuthProvider)_authState).MarkasLoggedIn(token);
+                Nav.NavigateTo("/habits");
+            }
+            else
+            {
+                ErrorMSG = "Login failed: invalid credentials.";
+            }
+        }
+        catch (Exception ex)
+        {
+            ErrorMSG = $"Error: {ex.Message}";
+        }
+    }
+
 
 }
+
