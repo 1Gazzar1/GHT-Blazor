@@ -1,4 +1,5 @@
-﻿@inject AuthenticationStateProvider _authState
+﻿@rendermode @(new InteractiveWebAssemblyRenderMode(prerender:false))
+@inject AuthenticationStateProvider _authState
 @inject AuthService _authService
 @inject NavigationManager Nav
 
@@ -7,53 +8,56 @@
     <div class="login">
 
     <EditForm Model="userInfo" FormName="LoginForm" OnValidSubmit="HandleLogin">
-        <input type="text" id="name" @bind="userInfo.Username" placeholder="Username" required />
-        <input type="password" id="pwd" @bind="userInfo.Password" placeholder="Password" required />
+            <input type="text" id="name" @bind="@userInfo.Username" placeholder="Username" required />
+            <input type="password" id="pwd" @bind="@userInfo.Password" placeholder="Password" required />
         <button type="submit">Login</button>
     </EditForm>
 
 
-        <h6>Don't have an account? <a href="#">Register</a></h6>
+        <h6>Don't have an account? <a href="" @onclick="OnRegister">Register</a></h6>
 
-        <h1>@ErrorMSG</h1>
+        <h5>@ErrorMSG</h5>
     </div>
 </div>
-<h1>@token</h1>
 
 @code {
-    public LoginDTO userInfo { get; set; } = new LoginDTO();
-    public string? ErrorMSG { get; set; } = "!";
-    public string? token { get; set; } = "jkljkl";
+	public LoginDTO userInfo { get; set; } = new LoginDTO();
+	public string? ErrorMSG { get; set; } 
+	[Parameter]
+	public EventCallback RegisterCall { get; set; }
+	private async Task HandleLogin()
+	{
 
-    private async Task HandleLogin()
-    {
-        Console.WriteLine("HandleLogin triggered");  // Debugging line
+		ErrorMSG = "Attempting to log in...";  // Display a message to indicate login started                                               // Temporary value for testing
 
-        ErrorMSG = "Attempting to log in...";  // Display a message to indicate login started
-        token = "debug-token";  // Temporary value for testing
+		try
+		{
 
-        try
-        {
-            // Delay for testing to see if UI updates
-            await Task.Delay(1000);
+			// Perform login request
+			var response = await _authService.Login(userInfo);
 
-            // Perform login request
-            var response = await _authService.Login(userInfo);
-            token = response._token;
+			var token = response._token;
 
-            if (!string.IsNullOrEmpty(token))
-            {
-                ((CustomAuthProvider)_authState).MarkasLoggedIn(token);
-                Nav.NavigateTo("/habits");
-            }
-            else
-            {
-                ErrorMSG = "Login failed: invalid credentials.";
-            }
-        }
-        catch (Exception ex)
-        {
-            ErrorMSG = $"Error: {ex.Message}";
-        }
-    }
+
+
+			if (!string.IsNullOrEmpty(token))
+			{
+				((CustomAuthProvider)_authState).MarkasLoggedIn(token);
+				Nav.NavigateTo("/habits");
+			}
+			else
+			{
+				ErrorMSG = "Login failed: invalid credentials.";
+			}
+		}
+		catch (Exception ex)
+		{
+			ErrorMSG = $"Invalid Username or Password (probably)";
+		}
+	}
+	private async Task OnRegister()
+	{
+		ErrorMSG = "bruh";
+		await RegisterCall.InvokeAsync();
+	}
 }

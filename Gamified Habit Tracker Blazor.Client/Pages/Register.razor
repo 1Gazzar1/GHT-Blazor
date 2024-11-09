@@ -12,7 +12,7 @@
 		
 		<input type="password" id="pwd2" placeholder="Confirm Password" @bind="Password2" />
 		
-		<button type="submit" @onclick ="HandleSubmit">Login</button>
+		<button type="submit" @onclick ="HandleSubmit">Register</button>
 		<p>@Error</p>
 		
 	</div>
@@ -24,23 +24,42 @@
 	public string Password1 { get; set; } = "";
 	public string Password2 { get; set; } = "";
 	public string Error { get; set; } = "";
+	[Parameter]
+	public EventCallback RegisterCall { get; set; }
 
 	public async Task HandleSubmit()
-	{
-		if (Password1 == Password2)
+	{	
+		if (String.IsNullOrEmpty(Password1) 
+		&& String.IsNullOrEmpty(Password2) 
+		&& String.IsNullOrEmpty(Name))
 		{
-			var user = new User()
-			{
-				Name = Name,
-				Password = Password1
-			};
-			await _userService.RegisterUser(user);
-		}	
-		else
+			Error = "Please enter your desired name & password";
+		}
+		else if (await _userService.UserExists( new UserDTO()
+		{
+		Name = Name,
+		Password = Password1
+		}))
+		{
+			Error = "User already exists.";
+		}
+		else if (Password1 != Password2)
 		{
 			Password1 = "";
 			Password2 = "";
 			Error = "Please enter the same password";
+
+		}	
+		else
+		{
+			
+			var user = new User()
+				{
+					Name = Name,
+					Password = Password1
+				};
+			await _userService.RegisterUser(user);
+			await RegisterCall.InvokeAsync();
 		}
 	}
 }

@@ -7,9 +7,9 @@ public class CustomAuthProvider : AuthenticationStateProvider
 
     public override Task<AuthenticationState> GetAuthenticationStateAsync()
     {
-        _token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjYiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoibWVsYW1vIiwiZXhwIjoxNzMxMDk4MzM5LCJpc3MiOiJpZGsiLCJhdWQiOiJpZGsyIn0.-t_F18I3bRYzz2cI5FoVX2ZfD17OEjuis3iTKMXzzX4";
+		// _token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjYiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoibWVsYW1vIiwiZXhwIjoxNzMxMjQ4MjkwLCJpc3MiOiJpZGsiLCJhdWQiOiJpZGsyIn0.G3WZBYKrZirqfy_DxdnfWOM4ixO0AZf1CUxwAyrMVV8";
 
-        var identity = string.IsNullOrEmpty(_token)
+		var identity = string.IsNullOrEmpty(_token)
             ? new ClaimsIdentity()
             : new ClaimsIdentity(ParseClaimsFromJwt(_token), "jwt");
 
@@ -26,8 +26,21 @@ public class CustomAuthProvider : AuthenticationStateProvider
         _token = "";
         NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
     }
-    // i copied this , i have no idea how it works 
-    private IEnumerable<Claim> ParseClaimsFromJwt(string jwt)
+	public int GetUserID()
+	{
+		var claim = ParseClaimsFromJwt(_token).FirstOrDefault(c =>
+						c.Type == ClaimTypes.NameIdentifier);
+
+		if (claim == null || !int.TryParse(claim.Value, out var userId))
+		{
+			
+			return -1; 
+		}
+
+		return userId;
+	}
+	// i copied this , i have no idea how it works 
+	private IEnumerable<Claim> ParseClaimsFromJwt(string jwt)
     {
         var claims = new List<Claim>();
         var payload = jwt.Split('.')[1];

@@ -2,6 +2,7 @@
 @inject HabitService _habitService
 @rendermode @(new InteractiveWebAssemblyRenderMode(prerender:false))
 @inject NavigationManager nav
+@inject AuthenticationStateProvider _authState
 
 <PageTitle>Habits</PageTitle>
 
@@ -24,19 +25,22 @@
 	private List<Habit> _CompletedHabits = new List<Habit>();
 	private List<Habit> _NotCompletedHabits = new List<Habit>();
 	public int Streak { get; set; } = 0;
+	public int userid { get; set; }
 
 	protected override async Task OnInitializedAsync()
 	{
+		userid = ((CustomAuthProvider)_authState).GetUserID();
 		_Habits = await _habitService.GetHabits() ?? new();
-		_CompletedHabits = await _habitService.GetCompletedHabits(6) ?? new(); // replace with userid
-		_NotCompletedHabits = await _habitService.GetNonCompletedHabits(6) ?? new(); // replace with userid
-		Streak = await _habitService.CurrentStreak(6); //replace with userid
+		_CompletedHabits = await _habitService.GetCompletedHabits(userid) ?? new(); 
+		_NotCompletedHabits = await _habitService.GetNonCompletedHabits(userid) ?? new(); 
+		Streak = await _habitService.CurrentStreak(userid); 
+		
 	}
 	public async Task RefreshHabits()
 	{
-		_CompletedHabits = await _habitService.GetCompletedHabits(6) ?? new(); // replace with userid
-		_NotCompletedHabits = await _habitService.GetNonCompletedHabits(6) ?? new(); // replace with userid
-		Streak = await _habitService.CurrentStreak(6); //replace with userid
+		_CompletedHabits = await _habitService.GetCompletedHabits(userid) ?? new(); 
+		_NotCompletedHabits = await _habitService.GetNonCompletedHabits(userid) ?? new(); 
+		Streak = await _habitService.CurrentStreak(userid); 
 	}
 	protected async override Task OnAfterRenderAsync(bool firstRender)
 	{

@@ -3,6 +3,7 @@
 @inject HabitService _habitService
 @rendermode @(new InteractiveWebAssemblyRenderMode(prerender:false))
 @inject NavigationManager nav
+@inject AuthenticationStateProvider _authState
 
 <div class="Edit-Habit-page">
 	@if (id == null)
@@ -29,7 +30,7 @@
 			<button type="submit" class="btn btn-primary">Save</button>
 		</EditForm>
 	</div>
-	
+
 
 </div>
 	
@@ -38,21 +39,30 @@
 	[Parameter] public int? id { get; set; }
 	public Habit habit { get; set; } = new Habit()
 	{
-		UserID = 6 //replace with userid
+
 	};
+	public int userid { get; set; }
 
 	public async Task HandleSubmit()
 	{
 		if (id != null)
 		{
+			habit.UserID = userid;
 			await _habitService.UpdateHabit((int) id, habit);
 			nav.NavigateTo("/habits");
 		}
 		else
 		{
+			habit.UserID = userid;
 			await _habitService.AddHabit(habit);
 			nav.NavigateTo("/habits");
 		}
 
+	}
+	protected async override Task OnInitializedAsync()
+	{
+		userid = ((CustomAuthProvider)_authState).GetUserID();
+		
+		await base.OnInitializedAsync();
 	}
 }

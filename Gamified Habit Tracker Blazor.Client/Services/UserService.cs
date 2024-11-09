@@ -10,8 +10,16 @@ public class UserService
 
     public async Task RegisterUser(User user)
     {
-        var response = await _httpClient.PostAsJsonAsync("api/User",user);
+        var response = await _httpClient.PostAsJsonAsync("api/User", user);
         response.EnsureSuccessStatusCode();
     }
+	public async Task<bool> UserExists(UserDTO userInfo)
+	{
+		var response = await _httpClient.PostAsJsonAsync("api/User/UserExists", userInfo);
+		response.EnsureSuccessStatusCode();
+		return await response.Content.ReadFromJsonAsync<bool>();
+		
+        
+	}
 }
 

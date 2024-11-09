@@ -2,6 +2,7 @@
 
 @inject AchievementService _achievementService
 @rendermode @(new InteractiveWebAssemblyRenderMode(prerender:false))
+@inject AuthenticationStateProvider _authState
 
 <PageTitle>Achievements</PageTitle>
 
@@ -33,7 +34,8 @@
 				</div>
 			</div>
 		}
-
+		@userid
+		
 	</div>
 </div>
 
@@ -41,14 +43,18 @@
 
 @code {
 	public List<UserAchievementDTO> _achievements { get; set; } = new List<UserAchievementDTO>();
+	public int userid { get; set; }
+	public string token { get; set; }
 
 
-
-	protected async override Task OnInitializedAsync()	
+	protected async override  Task OnInitializedAsync()
 	{
-		// replace with userid
-		_achievements =  await _achievementService.GetAllAchievement(6) ?? new();
-		await base.OnParametersSetAsync();
+		userid = ((CustomAuthProvider)_authState).GetUserID();
+		
+		_achievements = await _achievementService.GetAllAchievement(userid);
+		await base.OnInitializedAsync();
 	}
+
+
 }
 

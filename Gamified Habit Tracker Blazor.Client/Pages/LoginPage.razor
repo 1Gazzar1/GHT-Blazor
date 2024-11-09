@@ -1,0 +1,30 @@
+﻿@rendermode @(new InteractiveWebAssemblyRenderMode(prerender:false))
+@page "/Login"
+
+<PageTitle>Login</PageTitle>
+<div class="img-background">
+	
+	
+	@if (HasAccount){
+		<LoginForm RegisterCall ="() => ChangeFlag()" ></LoginForm>
+	}
+	else
+	{
+		<Register RegisterCall="() => ChangeFlag()"></Register>
+	}
+</div>
+
+@code{
+	public bool HasAccount { get; set; } = true;
+	public void ChangeFlag()
+	{
+		HasAccount = !HasAccount;
+		StateHasChanged();
+	}
+	private void nav_register(MouseEventArgs e)
+	{
+		throw new NotImplementedException();
+	}
+}
+
+

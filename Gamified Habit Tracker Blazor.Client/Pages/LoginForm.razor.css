@@ -28,6 +28,7 @@
     border : none;
     border-bottom : 1px solid white;
     background: none;
+    width : 100%;
 
 }
 .login input:focus {

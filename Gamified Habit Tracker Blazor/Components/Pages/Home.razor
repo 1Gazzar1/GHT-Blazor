@@ -1,22 +1,14 @@
-﻿@page "/"
+﻿@inject NavigationManager Nav
+@page "/"
 
-<PageTitle>Login</PageTitle>
-<div class="img-background">
-	
-	
-	@if (true){
-		<LoginForm></LoginForm>
-	}
-	else
-	{
-		<Register></Register>
-	}
-</div>
+
 
 @code{
-	private void nav_register(MouseEventArgs e)
+
+	protected async override Task OnInitializedAsync()
 	{
-		throw new NotImplementedException();
+		Nav.NavigateTo("Login");
+		await base.OnInitializedAsync();
 	}
 }
 
