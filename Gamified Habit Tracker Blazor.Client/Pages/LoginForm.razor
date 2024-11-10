@@ -17,6 +17,7 @@
         <h6>Don't have an account? <a href="" @onclick="OnRegister">Register</a></h6>
 
         <h5>@ErrorMSG</h5>
+		 
     </div>
 </div>
 
@@ -25,6 +26,7 @@
 	public string? ErrorMSG { get; set; } 
 	[Parameter]
 	public EventCallback RegisterCall { get; set; }
+	//public int userid { get; set; }
 	private async Task HandleLogin()
 	{
 
@@ -59,5 +61,10 @@
 	{
 		ErrorMSG = "bruh";
 		await RegisterCall.InvokeAsync();
+	}
+	protected override Task OnInitializedAsync()
+	{
+		//userid = ((CustomAuthProvider)_authState).GetUserID();
+		return base.OnInitializedAsync();
 	}
 }

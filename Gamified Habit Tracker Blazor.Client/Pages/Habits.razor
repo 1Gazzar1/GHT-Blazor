@@ -7,7 +7,7 @@
 <PageTitle>Habits</PageTitle>
 
 <div class="Habits-page">
-	<h1>Habits</h1>
+	<h1 style="margin-top : 100px">Habits</h1>
 
 	<HabitDropdown UpdateHabits="RefreshHabits" Title="Daily Habits  ▼" Habits="_NotCompletedHabits" Completed="false"></HabitDropdown>
 	<br /><br /><br /><br />
@@ -31,7 +31,8 @@
 	{
 		userid = ((CustomAuthProvider)_authState).GetUserID();
 		_Habits = await _habitService.GetHabits() ?? new();
-		_CompletedHabits = await _habitService.GetCompletedHabits(userid) ?? new(); 
+		_CompletedHabits = await _habitService.GetCompletedHabits(userid) ?? new();
+		_CompletedHabits = _CompletedHabits.OrderBy(h => h.CompletedTime).Reverse().ToList();
 		_NotCompletedHabits = await _habitService.GetNonCompletedHabits(userid) ?? new(); 
 		Streak = await _habitService.CurrentStreak(userid); 
 		
@@ -39,6 +40,7 @@
 	public async Task RefreshHabits()
 	{
 		_CompletedHabits = await _habitService.GetCompletedHabits(userid) ?? new(); 
+		_CompletedHabits = _CompletedHabits.OrderBy(h => h.CompletedTime).Reverse().ToList();
 		_NotCompletedHabits = await _habitService.GetNonCompletedHabits(userid) ?? new(); 
 		Streak = await _habitService.CurrentStreak(userid); 
 	}
