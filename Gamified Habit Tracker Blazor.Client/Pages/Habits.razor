@@ -25,24 +25,24 @@
 	private List<Habit> _CompletedHabits = new List<Habit>();
 	private List<Habit> _NotCompletedHabits = new List<Habit>();
 	public int Streak { get; set; } = 0;
-	public int userid { get; set; }
+	public int user_id { get; set; }
 
 	protected override async Task OnInitializedAsync()
 	{
-		userid = ((CustomAuthProvider)_authState).GetUserID();
+		user_id = ((CustomAuthProvider)_authState).GetUserID();
 		_Habits = await _habitService.GetHabits() ?? new();
-		_CompletedHabits = await _habitService.GetCompletedHabits(userid) ?? new();
+		_CompletedHabits = await _habitService.GetCompletedHabits(user_id) ?? new();
 		_CompletedHabits = _CompletedHabits.OrderBy(h => h.CompletedTime).Reverse().ToList();
-		_NotCompletedHabits = await _habitService.GetNonCompletedHabits(userid) ?? new(); 
-		Streak = await _habitService.CurrentStreak(userid); 
+		_NotCompletedHabits = await _habitService.GetNonCompletedHabits(user_id) ?? new(); 
+		Streak = await _habitService.CurrentStreak(user_id); 
 		
 	}
 	public async Task RefreshHabits()
 	{
-		_CompletedHabits = await _habitService.GetCompletedHabits(userid) ?? new(); 
+		_CompletedHabits = await _habitService.GetCompletedHabits(user_id) ?? new(); 
 		_CompletedHabits = _CompletedHabits.OrderBy(h => h.CompletedTime).Reverse().ToList();
-		_NotCompletedHabits = await _habitService.GetNonCompletedHabits(userid) ?? new(); 
-		Streak = await _habitService.CurrentStreak(userid); 
+		_NotCompletedHabits = await _habitService.GetNonCompletedHabits(user_id) ?? new(); 
+		Streak = await _habitService.CurrentStreak(user_id); 
 	}
 	protected async override Task OnAfterRenderAsync(bool firstRender)
 	{

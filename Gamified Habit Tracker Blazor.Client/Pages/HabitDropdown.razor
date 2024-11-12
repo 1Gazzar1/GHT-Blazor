@@ -1,5 +1,6 @@
 ﻿@inject NavigationManager nav
 @inject HabitService _habitService
+@inject ExperienceService _experienceService
 
 <div class="dropdown">
     <label for="@($"{Title}dropdownToggle")" class="dropdown-btn">@Title</label>
@@ -97,6 +98,7 @@
     public async Task CompleteHabit(int id)
     {
         await _habitService.CompleteHabit(id);
+        await _experienceService.AddExperiences(id);
         var habitToComplete = Habits?.FirstOrDefault(h => h.HabitID == id);
         if (habitToComplete != null)
         {

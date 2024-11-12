@@ -1,0 +1,34 @@
+﻿.good-job-img {
+	background-image: url("Assets/GoodJob.jpg");
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	position: fixed;
+	width: 550px;
+	height: 350px;
+	overflow: hidden;
+	top: 55%;
+	left: 75%;
+	z-index: 1;
+	transform: translate(-50%, -50%);
+}
+.exp-page {
+    background: linear-gradient(90deg, rgb(59, 30, 84), rgb(212, 190, 228));
+	overflow: auto;
+	width: 100vw;
+	height: 100vh;
+	position: fixed;
+	top: 0;
+	left: 0;
+	text-align : center;
+	color : white;
+}
+.exp{
+	color : white;
+	margin : 30px ;
+	margin-left : 10%;
+	text-align : left;
+	padding : 5px;
+	border : 2px solid black;
+	max-width : 600px;
+}

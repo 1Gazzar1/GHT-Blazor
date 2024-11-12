@@ -41,19 +41,19 @@
 	{
 
 	};
-	public int userid { get; set; }
+	public int user_id { get; set; }
 
 	public async Task HandleSubmit()
 	{
 		if (id != null)
 		{
-			habit.UserID = userid;
+			habit.UserID = user_id;
 			await _habitService.UpdateHabit((int) id, habit);
 			nav.NavigateTo("/habits");
 		}
 		else
 		{
-			habit.UserID = userid;
+			habit.UserID = user_id;
 			await _habitService.AddHabit(habit);
 			nav.NavigateTo("/habits");
 		}
@@ -61,7 +61,7 @@
 	}
 	protected async override Task OnInitializedAsync()
 	{
-		userid = ((CustomAuthProvider)_authState).GetUserID();
+		user_id = ((CustomAuthProvider)_authState).GetUserID();
 		
 		await base.OnInitializedAsync();
 	}
