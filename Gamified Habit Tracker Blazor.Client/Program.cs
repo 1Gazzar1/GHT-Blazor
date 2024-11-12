@@ -19,6 +19,7 @@ namespace Gamified_Habit_Tracker_Blazor.Client
 			builder.Services.AddScoped<UserService>();
 			builder.Services.AddScoped<AchievementService>();
             builder.Services.AddScoped<ExperienceService>();
+            builder.Services.AddScoped<LevelService>();
 
             builder.Services.AddScoped<AuthService>();
 			builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthProvider>();

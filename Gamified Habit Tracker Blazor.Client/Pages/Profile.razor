@@ -1,0 +1,29 @@
+﻿@inject LevelService _levelService
+@inject UserService _userService
+@inject AuthenticationStateProvider _authState
+@rendermode @(new InteractiveWebAssemblyRenderMode(prerender:false))
+
+@page "/profile"
+
+<h3>Profile</h3>
+
+<h2>Hello @user.Name</h2>
+<h3>You have @user.ExpPoints Exp points</h3>
+<h3>Your current level is  @user_lvl.Name </h3>
+<h3>the next level requires @user_lvl.ExperiencePoints Exp points </h3>
+<h3>You need only @(user_lvl.ExperiencePoints - user.ExpPoints) Exp points more </h3>
+
+@code {
+	public User user { get; set; } = new();
+	public Level user_lvl { get; set; } = new();
+	public int user_id { get; set; }
+
+	protected override async Task OnInitializedAsync()
+	{
+		user_id = ((CustomAuthProvider)_authState).GetUserID();
+		user = await _userService.GetUserByID(user_id);
+		user_lvl = await _userService.GetUserLevel(user_id);
+		await  base.OnInitializedAsync();
+	}
+
+}

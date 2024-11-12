@@ -39,6 +39,10 @@ public class CustomAuthProvider : AuthenticationStateProvider
 
 		return userId;
 	}
+    public string GetToken()
+    {
+        return _token ?? "";
+    }
 	// i copied this , i have no idea how it works 
 	private IEnumerable<Claim> ParseClaimsFromJwt(string jwt)
     {

@@ -1,6 +1,7 @@
 ﻿@inject NavigationManager nav
 @inject HabitService _habitService
 @inject ExperienceService _experienceService
+@inject LevelService _levelService
 
 <div class="dropdown">
     <label for="@($"{Title}dropdownToggle")" class="dropdown-btn">@Title</label>
@@ -73,6 +74,9 @@
     [Parameter]
     public EventCallback UpdateHabits { get; set; }
 
+    [Parameter]
+    public int user_id { get; set; }
+
     public int Count { get; set; } = 1;
 
     public void EditHabit(int id)
@@ -99,6 +103,7 @@
     {
         await _habitService.CompleteHabit(id);
         await _experienceService.AddExperiences(id);
+        await _levelService.CheckLevelUp(user_id);
         var habitToComplete = Habits?.FirstOrDefault(h => h.HabitID == id);
         if (habitToComplete != null)
         {
