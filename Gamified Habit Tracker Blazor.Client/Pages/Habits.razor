@@ -29,6 +29,7 @@
 
 	protected override async Task OnInitializedAsync()
 	{
+		await _authState.GetAuthenticationStateAsync();
 		user_id = ((CustomAuthProvider)_authState).GetUserID();
 		_Habits = await _habitService.GetHabits() ?? new();
 		_CompletedHabits = await _habitService.GetCompletedHabits(user_id) ?? new();

@@ -1,7 +1,4 @@
-﻿using Gamified_Habit_Tracker_Blazor.Client;
-using System.Net.Http.Headers;
-
-namespace Gamified_Habit_Tracker_Blazor.Services;
+﻿namespace Gamified_Habit_Tracker_Blazor.Services;
 public class LevelService
 {
     private readonly HttpClient _httpClient;

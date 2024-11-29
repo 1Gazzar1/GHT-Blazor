@@ -36,6 +36,7 @@
 			</div>
 		}
 		@user_id
+		@token
 		
 	</div>
 </div>
@@ -45,12 +46,14 @@
 @code {
 	public List<UserAchievementDTO> _achievements { get; set; } = new List<UserAchievementDTO>();
 	public int user_id { get; set; }
-	public string token { get; set; }
+	public string? token { get; set; }
 
 
 	protected async override  Task OnInitializedAsync()
 	{
+		await _authState.GetAuthenticationStateAsync();
 		user_id = ((CustomAuthProvider)_authState).GetUserID();
+		token = ((CustomAuthProvider)_authState).GetToken();
 		
 		_achievements = await _achievementService.GetAllAchievement(user_id) ?? new();
 		await base.OnInitializedAsync();

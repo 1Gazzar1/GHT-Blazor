@@ -3,27 +3,52 @@
 public class CustomAuthProvider : AuthenticationStateProvider
 {
 
+    private readonly ILocalStorageService _localStorageService;
     private string? _token;
 
-    public override Task<AuthenticationState> GetAuthenticationStateAsync()
+    public CustomAuthProvider(ILocalStorageService localStorageService)
+    {
+		_localStorageService = localStorageService;
+	}
+	private async Task<bool> IsBrowser()   // I have no idea what is this 
+	{
+		try
+		{
+			// This will throw an exception if not in the browser
+			await _localStorageService.GetItemAsync<string>("dummy");
+			return true;
+		}
+		catch
+		{
+			return false;
+		}
+	} 
+	public async override Task<AuthenticationState> GetAuthenticationStateAsync()
     {
 		// _token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjYiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoibWVsYW1vIiwiZXhwIjoxNzMxMjQ4MjkwLCJpc3MiOiJpZGsiLCJhdWQiOiJpZGsyIn0.G3WZBYKrZirqfy_DxdnfWOM4ixO0AZf1CUxwAyrMVV8";
+
+		if (await IsBrowser())
+		{
+			_token = await _localStorageService.GetItemAsync<string>("token");
+		}
 
 		var identity = string.IsNullOrEmpty(_token)
             ? new ClaimsIdentity()
             : new ClaimsIdentity(ParseClaimsFromJwt(_token), "jwt");
 
-        return Task.FromResult(new AuthenticationState(new ClaimsPrincipal(identity)));
+        return (new AuthenticationState(new ClaimsPrincipal(identity)));
     }
 
-    public void MarkasLoggedIn(string token)
+    public async void MarkasLoggedIn(string token)
     {
+        await _localStorageService.SetItemAsync("token", token);
         _token = token;
         NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
     }
-    public void MarkUserAsLoggedOut()
+    public async void MarkUserAsLoggedOut()
     {
-        _token = "";
+		await _localStorageService.RemoveItemAsync("token");
+		_token = "";
         NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
     }
 	public int GetUserID()
@@ -46,7 +71,11 @@ public class CustomAuthProvider : AuthenticationStateProvider
 	// i copied this , i have no idea how it works 
 	private IEnumerable<Claim> ParseClaimsFromJwt(string jwt)
     {
-        var claims = new List<Claim>();
+		if (string.IsNullOrWhiteSpace(jwt))
+		{
+			return Enumerable.Empty<Claim>(); // Return an empty claims list if the token is null or empty
+		}
+		var claims = new List<Claim>();
         var payload = jwt.Split('.')[1];
         var jsonBytes = Convert.FromBase64String(payload.PadRight(payload.Length + (4 - payload.Length % 4) % 4, '='));
         var keyValuePairs = JsonSerializer.Deserialize<Dictionary<string, object>>(jsonBytes);

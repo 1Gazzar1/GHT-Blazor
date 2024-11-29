@@ -31,6 +31,7 @@
 
 	protected async override Task OnInitializedAsync()
 	{
+		await _authState.GetAuthenticationStateAsync();
 		user_id = ((CustomAuthProvider)_authState).GetUserID();
 		_exps = await _experienceService.GetExperiencesByUserID(user_id);
 		StreakBounus = await _experienceService.GetStreakBonus(user_id);

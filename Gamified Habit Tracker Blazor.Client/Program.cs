@@ -1,6 +1,3 @@
-using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Gamified_Habit_Tracker_Blazor.Services;
-
 namespace Gamified_Habit_Tracker_Blazor.Client
 {
     internal class Program
@@ -24,6 +21,7 @@ namespace Gamified_Habit_Tracker_Blazor.Client
             builder.Services.AddScoped<AuthService>();
 			builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthProvider>();
 
+			builder.Services.AddBlazoredLocalStorage();
 
 			await builder.Build().RunAsync();
         }

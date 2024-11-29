@@ -1,3 +1,4 @@
+using Blazored.LocalStorage;
 using Gamified_Habit_Tracker_Blazor.Client;
 using Gamified_Habit_Tracker_Blazor.Client.Pages;
 using Gamified_Habit_Tracker_Blazor.Components;
@@ -21,6 +22,7 @@ namespace Gamified_Habit_Tracker_Blazor
             builder.Services.AddCascadingAuthenticationState();
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7113/") });
+            builder.Services.AddBlazoredLocalStorage();
             builder.Services.AddScoped<AuthService>();
             builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthProvider>();
             builder.Services.AddAuthorizationCore();

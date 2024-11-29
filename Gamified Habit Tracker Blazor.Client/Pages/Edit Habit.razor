@@ -61,6 +61,7 @@
 	}
 	protected async override Task OnInitializedAsync()
 	{
+		await _authState.GetAuthenticationStateAsync();
 		user_id = ((CustomAuthProvider)_authState).GetUserID();
 		
 		await base.OnInitializedAsync();
