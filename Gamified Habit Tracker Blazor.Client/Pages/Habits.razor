@@ -1,5 +1,6 @@
 ﻿@page "/Habits"
 @inject HabitService _habitService
+@inject UserService _userService
 @rendermode @(new InteractiveWebAssemblyRenderMode(prerender:false))
 @inject NavigationManager nav
 @inject AuthenticationStateProvider _authState
@@ -9,7 +10,7 @@
 <div class="Habits-page">
 	<h1 style="margin-top : 100px">Habits</h1>
 
-	<HabitDropdown user_id ="user_id" UpdateHabits="RefreshHabits" Title="Daily Habits  ▼" Habits="_NotCompletedHabits" Completed="false"></HabitDropdown>
+	<HabitDropdown user_id ="user_id" UpdateHabits="RefreshHabits" Title="Work in Progress Habits  ▼" Habits="_NotCompletedHabits" Completed="false"></HabitDropdown>
 	<br /><br /><br /><br />
 	<HabitDropdown user_id="user_id" UpdateHabits="RefreshHabits" Title="Completed habits  ▼" Habits="_CompletedHabits" Completed="true"></HabitDropdown>
 
@@ -17,6 +18,10 @@
 		Current Streak :   @Streak    🔥
 		
 	</h3>
+	<button class="skip-button" alt="you can only skip a day once a month to keep your streak !!" @onclick="() => SkipDay()">
+		skip day
+	</button>
+	
 </div>
 
 
@@ -26,6 +31,7 @@
 	private List<Habit> _NotCompletedHabits = new List<Habit>();
 	public int Streak { get; set; } = 0;
 	public int user_id { get; set; }
+	public User? user { get; set; } = new User();
 
 	protected override async Task OnInitializedAsync()
 	{
@@ -35,8 +41,9 @@
 		_CompletedHabits = await _habitService.GetCompletedHabits(user_id) ?? new();
 		_CompletedHabits = _CompletedHabits.OrderBy(h => h.CompletedTime).Reverse().ToList();
 		_NotCompletedHabits = await _habitService.GetNonCompletedHabits(user_id) ?? new(); 
-		Streak = await _habitService.CurrentStreak(user_id); 
-		
+		Streak = await _habitService.CurrentStreak(user_id);
+		user = await _userService.GetUserByID(user_id);
+
 	}
 	public async Task RefreshHabits()
 	{
@@ -45,6 +52,17 @@
 		_NotCompletedHabits = await _habitService.GetNonCompletedHabits(user_id) ?? new(); 
 		Streak = await _habitService.CurrentStreak(user_id); 
 	}
+
+	public async Task SkipDay()
+	{
+		await _habitService.SkipDay(user_id);
+		if (!user.HasSkipDay)
+		{
+			await _habitService.CheckSkipDayRefresh(user_id);
+		}
+		StateHasChanged();
+	}
+
 	protected async override Task OnAfterRenderAsync(bool firstRender)
 	{
 		

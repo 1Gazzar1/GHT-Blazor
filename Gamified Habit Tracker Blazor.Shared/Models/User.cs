@@ -12,8 +12,9 @@
         public int ExpPoints { get; set; }
         [Required]
         public bool HasSkipDay { get; set; } = true;
+		public DateTime? LastSkipDayRefresh { get; set; }
 
-        [JsonIgnore]
+		[JsonIgnore]
         public List<Habit>? Habits { get; set; }
         [JsonIgnore]
         public Level? Level { get; set; }

@@ -53,6 +53,16 @@ public class HabitService
         var habits = await _httpClient.GetFromJsonAsync<List<Habit>>($"api/Habit/NotCompleted/{user_id}");
         return habits;
     }
+	public async Task SkipDay(int user_id)
+	{
+		var response = await _httpClient.PostAsync($"api/Habit/SkipDay/{user_id}",null);
+		response.EnsureSuccessStatusCode();
+	}
+	public async Task CheckSkipDayRefresh(int user_id)
+	{
+		var response = await _httpClient.PostAsync($"api/Habit/RefreshSkipDay/{user_id}", null);
+		response.EnsureSuccessStatusCode();
+	}
 
 }
 

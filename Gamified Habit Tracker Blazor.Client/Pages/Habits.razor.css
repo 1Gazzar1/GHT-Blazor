@@ -18,3 +18,14 @@
     text-align: center;
     color: rgb(238, 238, 238);
 }
+
+.skip-button {
+    font-size : 22px;
+    width: 150px;
+    border-radius: 10px;
+    height: 50px;
+    background-color: rgb(160, 140, 100);
+}
+.small{
+    font-size : 12px;
+}
