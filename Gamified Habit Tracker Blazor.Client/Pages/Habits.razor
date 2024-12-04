@@ -18,9 +18,22 @@
 		Current Streak :   @Streak    🔥
 		
 	</h3>
-	<button class="skip-button" alt="you can only skip a day once a month to keep your streak !!" @onclick="() => SkipDay()">
+	<button class="skip-button"  @onclick="() => SkipDay()">
 		skip day
 	</button>
+	@if (user.HasSkipDay)
+	{
+		<p>You still have a skip day this month</p>
+	}
+	else
+	{
+		<p>You consumed your skip day this month :( </p>
+	}
+
+	<br />
+	<small class="small">you can only skip a day once a month to keep your streak !!</small>
+	<br />
+	<small class="small">you can refresh your skip by doing atleast one habit in a new month</small>
 	
 </div>
 
@@ -43,6 +56,10 @@
 		_NotCompletedHabits = await _habitService.GetNonCompletedHabits(user_id) ?? new(); 
 		Streak = await _habitService.CurrentStreak(user_id);
 		user = await _userService.GetUserByID(user_id);
+		if (!user.HasSkipDay)
+		{
+			await _habitService.CheckSkipDayRefresh(user_id);
+		}
 
 	}
 	public async Task RefreshHabits()
@@ -51,15 +68,16 @@
 		_CompletedHabits = _CompletedHabits.OrderBy(h => h.CompletedTime).Reverse().ToList();
 		_NotCompletedHabits = await _habitService.GetNonCompletedHabits(user_id) ?? new(); 
 		Streak = await _habitService.CurrentStreak(user_id); 
+		if (!user.HasSkipDay)
+		{
+			await _habitService.CheckSkipDayRefresh(user_id);
+		}
+		user = await _userService.GetUserByID(user_id);
 	}
 
 	public async Task SkipDay()
 	{
 		await _habitService.SkipDay(user_id);
-		if (!user.HasSkipDay)
-		{
-			await _habitService.CheckSkipDayRefresh(user_id);
-		}
 		StateHasChanged();
 	}
 

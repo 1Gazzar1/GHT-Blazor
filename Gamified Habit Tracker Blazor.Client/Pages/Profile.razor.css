@@ -1,0 +1,34 @@
+﻿.profile-page {
+    background-image: url("Assets/habits-bg.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: fixed;
+    width: 100%;
+    height: 101vh;
+    overflow: hidden;
+    top: 50%;
+    left: 50%;
+    z-index: -1;
+    transform: translate(-50%, -50%);
+    color: rgb(238, 238, 238);
+}
+.text {
+    margin-left : 14%;
+    margin-top : 3%;
+}
+.golden{
+    color :  gold;
+}
+.blue {
+    color: deepskyblue;
+}
+.red {
+    color: tomato;
+}
+.green {
+    color: lawngreen;
+}
+.orange{
+    color : orange;
+}

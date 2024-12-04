@@ -1,0 +1,23 @@
+﻿@inject NavigationManager Nav
+@inject AuthenticationStateProvider _authState
+@rendermode @(new InteractiveWebAssemblyRenderMode(prerender:false))
+@page "/"
+
+@code{
+	protected async override Task OnInitializedAsync()
+	{
+		var state = await _authState.GetAuthenticationStateAsync();
+		if (state.User.Identity.IsAuthenticated)
+		{
+			Nav.NavigateTo("habits");
+		}
+		else
+		{
+			Nav.NavigateTo("login");
+		}
+
+		
+	}
+}
+
+

@@ -1,22 +1,33 @@
 ﻿@inject LevelService _levelService
 @inject UserService _userService
 @inject AuthenticationStateProvider _authState
+@inject HabitService _habitService
+@inject AchievementService _achService
 @rendermode @(new InteractiveWebAssemblyRenderMode(prerender:false))
 
 @page "/profile"
-
-<h3>Profile</h3>
-
-<h2>Hello @user.Name</h2>
-<h3>You have @user.ExpPoints Exp points</h3>
-<h3>Your current level is  @user_lvl.Name </h3>
-<h3>the next level requires @user_lvl.ExperiencePoints Exp points </h3>
-<h3>You need only @(user_lvl.ExperiencePoints - user.ExpPoints) Exp points more </h3>
+<div class="profile-page">
+	<div class="text">
+		<h1>Hello <span class="golden">@user.Name</span></h1>
+		<h2>You have <span class="blue">@user.ExpPoints</span> Exp points</h2>
+		<h2>Your current level is  <span class="orange">@user_lvl.Name</span> </h2>
+		<h2>the next level requires <span class="blue">@user_lvl.ExperiencePoints</span> Exp points </h2>
+		<h2>You need only <span class="blue">@(user_lvl.ExperiencePoints - user.ExpPoints)</span> Exp points more </h2>
+		<h2>Your Current Streak is <span class="red">@CurrentStreak</span></h2>
+		<h2>Your highest Streak is <span class="red">@HighestStreak</span></h2>
+		<h2>Your Have completed <span class="green">@CompletedAchievements</span> out of @TotalAchievements Achievements </h2>
+		<h5>only 6 are achievements accessable for now</h5>
+	</div>
+</div>
 
 @code {
 	public User user { get; set; } = new();
 	public Level user_lvl { get; set; } = new();
 	public int user_id { get; set; }
+	public int HighestStreak { get; set; }
+	public int CurrentStreak { get; set; }
+	public int TotalAchievements { get; set; }
+	public int CompletedAchievements { get; set; }
 
 	protected override async Task OnInitializedAsync()
 	{
@@ -24,6 +35,12 @@
 		user_id = ((CustomAuthProvider)_authState).GetUserID();
 		user = await _userService.GetUserByID(user_id);
 		user_lvl = await _userService.GetUserLevel(user_id);
+		CurrentStreak = await _habitService.CurrentStreak(user_id);
+		HighestStreak = await _habitService.HighestStreak(user_id);
+		var achs = await _achService.GetAllAchievement(user_id);
+		TotalAchievements = achs.Count;
+		CompletedAchievements = achs.Count(ua => ua.Status == true);
+
 		await  base.OnInitializedAsync();
 	}
 

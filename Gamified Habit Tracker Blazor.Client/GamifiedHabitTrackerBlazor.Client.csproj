@@ -36,6 +36,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Pages\Home.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
     <Content Update="Pages\LoginPage.razor">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
