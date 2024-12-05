@@ -44,7 +44,7 @@
 
 			if (!string.IsNullOrEmpty(token))
 			{
-				((CustomAuthProvider)_authState).MarkasLoggedIn(token);
+				await ((CustomAuthProvider)_authState).MarkasLoggedIn(token);
 				Nav.NavigateTo("/habits");
 			}
 			else

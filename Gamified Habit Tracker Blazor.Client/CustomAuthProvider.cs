@@ -45,13 +45,13 @@ public class CustomAuthProvider : AuthenticationStateProvider
         return (new AuthenticationState(new ClaimsPrincipal(identity)));
     }
 
-    public async void MarkasLoggedIn(string token)
+    public async Task MarkasLoggedIn(string token)
     {
         await _localStorageService.SetItemAsync("token", token);
         _token = token;
         NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
     }
-    public async void MarkUserAsLoggedOut()
+    public async Task MarkUserAsLoggedOut()
     {
 		await _localStorageService.RemoveItemAsync("token");
 		_token = "";

@@ -1,0 +1,13 @@
+﻿@inject AuthenticationStateProvider _authState
+@inject NavigationManager Nav
+@rendermode @(new InteractiveWebAssemblyRenderMode(prerender:false))
+
+<a href = "#" @onclick="HandleLogout">Logout</a>
+
+@code {
+    public async void HandleLogout()
+    {
+        await ((CustomAuthProvider)_authState).MarkUserAsLoggedOut();
+        Nav.NavigateTo("Login");
+    }
+}

@@ -42,7 +42,7 @@
     
     public async void Logout()
     {
-        ((CustomAuthProvider)_authState).MarkUserAsLoggedOut();
+        await ((CustomAuthProvider)_authState).MarkUserAsLoggedOut();
         Nav.NavigateTo("Login");
         await Task.CompletedTask;
     }

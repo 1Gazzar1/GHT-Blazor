@@ -1,26 +1,26 @@
 ﻿@inherits LayoutComponentBase
 @inject NavigationManager Nav
-@inject AuthenticationStateProvider _authState
 
 <div class="page">
     @if (!isLoginPage())
     {
         <div class="nav-bar">
             <ul class="nav-list">
-                <li><a href="achievements">Achievements</a></li>
-                <li><a href="habits">Habits</a></li>
-                <li><a href="profile">Profile</a></li>
-                <li><a href="Experience">Experience</a></li>
-                <li><a href="Login">Logout</a></li>
+                <li><a href="achievements" class="@MakeClassActive("achievements")">Achievements</a></li>
+                <li><a href="habits" class="@MakeClassActive("habits")">Habits</a></li>
+                <li><a href="profile" class="@MakeClassActive("profile")">Profile</a></li>
+                <li><a href="Experience" class="@MakeClassActive("Experience")">Experience</a></li>
+                <li><Logout  /></li>
 
             </ul>
         </div>
     }
     
-
+    
     <main>
 
         <article class="content ">
+            @MakeClassActive("Experience")
             @Body
         </article>
     </main>
@@ -34,17 +34,19 @@
 
 @code{
 
-    public bool isLoginPage()
-    {
-        var currentUri = Nav.Uri.ToLower();
-        return currentUri.Contains("/login");
-    }
-    
-    public async void Logout()
-    {
-        ((CustomAuthProvider)_authState).MarkUserAsLoggedOut();
-        Nav.NavigateTo("Login");
-        await Task.CompletedTask;
+        public bool isLoginPage()
+        {
+            var currentUri = Nav.Uri.ToLower();
+            return currentUri.Contains("/login");
+        }
+        public void MakeClassActive(string Class)
+        {
+            var currentUri = Nav.Uri.ToLower();
+            if (currentUri.Contains(Class.ToLower())){
+                return "active";
+            }
+            return Class;
     }
 
+   
 }

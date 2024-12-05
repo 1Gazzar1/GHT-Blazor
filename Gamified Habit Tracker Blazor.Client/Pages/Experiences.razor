@@ -2,12 +2,12 @@
 @inject AuthenticationStateProvider _authState
 @inject ExperienceService _experienceService
 @rendermode @(new InteractiveWebAssemblyRenderMode(prerender:false))
-
+@layout Layout.DefNotTheMainLayout
 
 <PageTitle>Experience History</PageTitle>
 <div class="exp-page">
-	<h1>Exp History</h1>
-	<h4>Current Streak Bounus : @StreakBounus</h4>
+	<h1 style="margin-top:80px;">Exp History</h1>
+	<h4>Current Streak Bonus : @StreakBounus</h4>
 
 	@foreach (var exp in _exps)
 	{

@@ -23,7 +23,8 @@
     width: 100%;
     height: 50px;
     background: linear-gradient(90deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2));
-    z-index: 1000000000000000000;
+    z-index: 100;
+    position : fixed ;
 }
 .nav-list {
     display: flex;
@@ -43,7 +44,7 @@
     transition: color 0.3s ease, border-bottom 0.3s ease;
 }
 
-.nav-list a:hover {
+.nav-list a:hover , .active {
     color: white;
     border-bottom: 2px solid white;
 }
