@@ -1,4 +1,6 @@
-﻿namespace Gamified_Habit_Tracker_Blazor.Client;
+﻿using System.Text;
+
+namespace Gamified_Habit_Tracker_Blazor.Client;
 
 public class CustomAuthProvider : AuthenticationStateProvider
 {
@@ -32,9 +34,13 @@ public class CustomAuthProvider : AuthenticationStateProvider
 			_token = await _localStorageService.GetItemAsync<string>("token");
 		}
 
-		var identity = string.IsNullOrEmpty(_token)
-            ? new ClaimsIdentity()
-            : new ClaimsIdentity(ParseClaimsFromJwt(_token), "jwt");
+		// checks for expriation date 
+		if (string.IsNullOrWhiteSpace(_token) || IsTokenExpired(_token))
+		{
+			return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity())); // Anonymous user
+		}
+
+		var identity = new ClaimsIdentity(ParseClaimsFromJwt(_token), "jwt");
 
         return (new AuthenticationState(new ClaimsPrincipal(identity)));
     }
@@ -87,4 +93,26 @@ public class CustomAuthProvider : AuthenticationStateProvider
         claims.AddRange((keyValuePairs.Select(kvp => new Claim(kvp.Key, kvp.Value.ToString() ?? string.Empty))));
         return claims;
     }
+	// i have no idea how this works 
+	private bool IsTokenExpired(string token)
+	{
+		if (string.IsNullOrWhiteSpace(token)) return true;
+
+		var parts = token.Split('.');
+		if (parts.Length != 3) return true;
+
+		var payloadJson = Encoding.UTF8.GetString(
+			Convert.FromBase64String(AddPadding(parts[1])));
+
+		var payload = JsonSerializer.Deserialize<Dictionary<string, object>>(payloadJson);
+		if (payload == null || !payload.TryGetValue("exp", out var exp)) return true;
+
+		var expirationTime = DateTimeOffset.FromUnixTimeSeconds(long.Parse(exp.ToString()));
+		return expirationTime < DateTime.UtcNow;
+	}
+	// not even this 
+	private string AddPadding(string base64)
+	{
+		return base64.PadRight(base64.Length + (4 - base64.Length % 4) % 4, '=');
+	}
 }
