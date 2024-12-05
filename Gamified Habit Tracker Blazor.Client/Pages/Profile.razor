@@ -8,26 +8,46 @@
 @page "/profile"
 <div class="profile-page">
 	<div class="text">
-		<h1>Hello <span class="golden">@user.Name</span></h1>
+		<h1>Hello <span class="golden"><b>@user.Name</b></span></h1>
+		<br />
+		<br />
+		<div class="text-line">
+			<h2>Your Current Exp Progress </h2>
+			<div class="progress-bar">
+				<div class="progress" style="width : @(ProgressBarFactor * 500)px;">
+				</div>
+			</div>
+		</div>
+		<br />
+		<br />
+		<br />
 		<h2>You have <span class="blue">@user.ExpPoints</span> Exp points</h2>
 		<h2>Your current level is  <span class="orange">@user_lvl.Name</span> </h2>
 		<h2>the next level requires <span class="blue">@user_lvl.ExperiencePoints</span> Exp points </h2>
 		<h2>You need only <span class="blue">@(user_lvl.ExperiencePoints - user.ExpPoints)</span> Exp points more </h2>
+		<br />
+		<br />
+		
 		<h2>Your Current Streak is <span class="red">@CurrentStreak</span></h2>
 		<h2>Your highest Streak is <span class="red">@HighestStreak</span></h2>
-		<h2>Your Have completed <span class="green">@CompletedAchievements</span> out of @TotalAchievements Achievements </h2>
-		<h5>only 6 are achievements accessable for now</h5>
+		<br />
+		<br />
+		<br />
+		<h2>You Have completed <span class="green">@CompletedAchievements</span> out of @TotalAchievements Achievements </h2>
+		<h5><i>only 6 are achievements accessable for now</i></h5>
 	</div>
 </div>
 
 @code {
 	public User user { get; set; } = new();
 	public Level user_lvl { get; set; } = new();
+	public int user_past_lvl_exp { get; set; } 
 	public int user_id { get; set; }
 	public int HighestStreak { get; set; }
 	public int CurrentStreak { get; set; }
 	public int TotalAchievements { get; set; }
 	public int CompletedAchievements { get; set; }
+	public float ProgressBarFactor { get; set; }
 
 	protected override async Task OnInitializedAsync()
 	{
@@ -35,12 +55,13 @@
 		user_id = ((CustomAuthProvider)_authState).GetUserID();
 		user = await _userService.GetUserByID(user_id);
 		user_lvl = await _userService.GetUserLevel(user_id);
+		user_past_lvl_exp = (await _levelService.GetPastLvl(user_id)).ExperiencePoints;
 		CurrentStreak = await _habitService.CurrentStreak(user_id);
 		HighestStreak = await _habitService.HighestStreak(user_id);
 		var achs = await _achService.GetAllAchievement(user_id);
 		TotalAchievements = achs.Count;
 		CompletedAchievements = achs.Count(ua => ua.Status == true);
-
+		ProgressBarFactor = ((float)(user.ExpPoints - user_past_lvl_exp) / (float)(user_lvl.ExperiencePoints - user_past_lvl_exp));
 		await  base.OnInitializedAsync();
 	}
 

@@ -1,7 +1,6 @@
 ﻿@page "/Habits"
 @inject HabitService _habitService
 @inject UserService _userService
-@inject AchievementService _achService
 @rendermode @(new InteractiveWebAssemblyRenderMode(prerender:false))
 @inject NavigationManager nav
 @inject AuthenticationStateProvider _authState
@@ -74,20 +73,8 @@
 			await _habitService.CheckSkipDayRefresh(user_id);
 		}
 		user = await _userService.GetUserByID(user_id);
-		await UpdateAchievements();
 	}
-	public async Task UpdateAchievements()
-	{
-		var checks = await _achService.CheckAllAchievements(user_id);
-		for (int i = 0; i < checks.Count; i++)
-		{
-			if (checks[i])
-			{
-				await _achService.CompleteAchievement(i+1, 6);
-			}
-
-		}
-	}
+	
 	public async Task SkipDay()
 	{
 		await _habitService.SkipDay(user_id);

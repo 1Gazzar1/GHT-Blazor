@@ -1,0 +1,50 @@
+﻿@inherits LayoutComponentBase
+@inject NavigationManager Nav
+@inject AuthenticationStateProvider _authState
+
+<div class="page">
+    @if (!isLoginPage())
+    {
+        <div class="nav-bar">
+            <ul class="nav-list">
+                <li><a href="achievements">Achievements</a></li>
+                <li><a href="habits">Habits</a></li>
+                <li><a href="profile">Profile</a></li>
+                <li><a href="Experience">Experience</a></li>
+                <li><a href="Login">Logout</a></li>
+
+            </ul>
+        </div>
+    }
+    
+
+    <main>
+
+        <article class="content ">
+            @Body
+        </article>
+    </main>
+</div>
+
+<div id="blazor-error-ui">
+    An unhandled error has occurred.
+    <a href="" class="reload">Reload</a>
+    <a class="dismiss">🗙</a>
+</div>
+
+@code{
+
+    public bool isLoginPage()
+    {
+        var currentUri = Nav.Uri.ToLower();
+        return currentUri.Contains("/login");
+    }
+    
+    public async void Logout()
+    {
+        ((CustomAuthProvider)_authState).MarkUserAsLoggedOut();
+        Nav.NavigateTo("Login");
+        await Task.CompletedTask;
+    }
+
+}
