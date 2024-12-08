@@ -1,0 +1,42 @@
+﻿@page "/notification"
+@rendermode @(new InteractiveWebAssemblyRenderMode(prerender:false))
+
+
+<div class="notification-box" style="opacity : @Opacity ">
+	<div class="notification">
+		<p>@Text</p>
+	</div>	
+</div>
+
+
+@code {
+	[Parameter]
+	public string? Text { get; set; } = "";
+
+	public double Opacity { get; set; } = 1;
+
+	protected override async Task OnInitializedAsync()
+	{
+		await base.OnInitializedAsync();
+	}
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		await base.OnAfterRenderAsync(firstRender);
+	}
+	protected override async Task OnParametersSetAsync()
+	{
+		Opacity = 1; // Reset opacity on new notification
+		await FadeOut();
+	}
+	public async Task FadeOut()
+	{
+		while (Opacity > 0)
+		{
+			await Task.Delay(25);
+			Opacity -= 0.005;
+			if (Opacity < 0) { Opacity = 0; };
+			StateHasChanged();
+		}
+	}
+}
+

@@ -62,6 +62,8 @@
     </div>
 </div>
 
+<Notification Text="@NotificationMessage" />
+
 @code {
     [Parameter]
     public List<Habit>? Habits { get; set; }
@@ -79,6 +81,8 @@
     public int user_id { get; set; }
 
     public int Count { get; set; } = 1;
+
+    public string? NotificationMessage { get; set; } = "";
 
     public void EditHabit(int id)
     {
@@ -105,7 +109,11 @@
         await _habitService.CompleteHabit(id);
         await UpdateAchievements();
         await _experienceService.AddExperiences(id);
-        await _levelService.CheckLevelUp(user_id);
+        var leveled_up = await _levelService.CheckLevelUp(user_id);
+        if (leveled_up)
+        {
+            ShowNotification("Level Up !!");
+        }
         var habitToComplete = Habits?.FirstOrDefault(h => h.HabitID == id);
         if (habitToComplete != null)
         {
@@ -117,18 +125,38 @@
         StateHasChanged();
 
     }
+    public void ShowNotification(string? message)
+    {
+        NotificationMessage = message;
+        StateHasChanged();
+    }
     public async Task UpdateAchievements()
-	{
-		var checks = await _achService.CheckAllAchievements(user_id);
-		for (int i = 0; i < checks.Count; i++)
-		{
-			if (checks[i])
-			{
-				await _achService.CompleteAchievement(i+1, user_id);
-			}
+    {
+        var old_ach = (await _achService.GetAllAchievement(user_id));
+        var old_checks = new List<bool>();
+        for (int i = 0;i < old_ach.Count; i++)
+        {
+            old_checks.Add(old_ach[i].Status); 
+        }
 
-		}
-	}
+        var checks = await _achService.CheckAllAchievements(user_id);
+        var unlockedAchievements = new List<int>();
+
+        for (int i = 0; i < checks.Count; i++)
+        {
+            if (checks[i] && !old_checks[i])
+            {
+                await _achService.CompleteAchievement(i+1, user_id);  
+                unlockedAchievements.Add(i + 1);
+            }
+                   
+        }
+        if (unlockedAchievements.Any())
+        {
+            ShowNotification("😎 Achievement Unlocked 😎");
+        }
+
+    }
     public void OnUpdateHabit()
     {
         UpdateHabits.InvokeAsync();

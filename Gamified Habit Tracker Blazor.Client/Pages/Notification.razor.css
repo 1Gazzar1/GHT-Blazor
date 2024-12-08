@@ -1,0 +1,12 @@
+﻿.notification-box {
+    max-width: 30%;
+    margin: auto;
+    height: 85px;
+}
+.notification{  
+    font-size : 30px ; 
+    background : rgb(191, 191, 191);
+    border-radius : 10px;
+    opacity : 0.8;
+    text-align : center;
+}
