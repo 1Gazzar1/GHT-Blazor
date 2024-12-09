@@ -1,15 +1,23 @@
 ﻿
 .achievement-page {
-	background: linear-gradient(90deg, rgb(155, 126, 189), rgb(59, 30, 84));
-	overflow: auto;
-	width: 100vw;
-	height: 100vh;
+	background-image: url("Assets/deer.jpg");
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	overflow : auto;
 	position: fixed;
-	top: 0;
-	left: 0;
+	width: 100%;
+	height: 101vh;
+	top: 50%;
+	left: 50%;
+	z-index: -1;
+	transform: translate(-50%, -50%);
 	text-align: center;
+	color: rgb(238, 238, 238);
 }
-
+.achievement-page::-webkit-scrollbar {
+	display: none;
+}
 
 .Achievements-container {
 	display: flex;
@@ -20,16 +28,16 @@
 }
 .Achievement {
 	display: grid;
-	grid-template-columns: auto 1fr auto; 
+	grid-template-columns: auto 1fr auto;
 	align-items: center;
 	padding: 1rem;
-	border: 1px solid #ddd;
+	border: 2px solid black;
 	border-radius: 8px;
 	gap: 1rem;
-	background: linear-gradient(90deg,rgb(238, 238, 238,0.5),rgb(212, 190, 228,0.5));
+	background: linear-gradient(90deg,rgb(75, 0, 130,0.5),rgb(50, 0, 80,0.5));
 }
 .Achievement:hover {
-	background: linear-gradient(90deg,rgb(238, 238, 238,0.8),rgb(212, 190, 228,0.8));
+	background: linear-gradient(90deg,rgb(80, 0, 140,0.8),rgb(60, 0,110,0.8));
 }
 .Achievement-img {
 	background-image: url("Assets/placeholder.jpg");

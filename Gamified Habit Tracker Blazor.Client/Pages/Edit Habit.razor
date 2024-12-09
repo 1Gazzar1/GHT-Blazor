@@ -30,34 +30,53 @@
 			<button type="submit" class="btn btn-primary">Save</button>
 		</EditForm>
 	</div>
-
+	<Notification Text="@NotificationMessage" />
 
 </div>
 	
 @code {
 
 	[Parameter] public int? id { get; set; }
-	public Habit habit { get; set; } = new Habit()
-	{
+	public Habit habit { get; set; } = new Habit();
 
-	};
 	public int user_id { get; set; }
+
+	public string? NotificationMessage { get; set; }		
 
 	public async Task HandleSubmit()
 	{
-		if (id != null)
+
+		if (habit.ExperiencePointsReward > 200)
+		{
+			ShowNotification("You can't make the exp over 200 \n be True to yourself :)");
+			habit.ExperiencePointsReward = 0;
+			StateHasChanged();
+		}
+		else if (habit.ExperiencePointsReward <= 0)
+		{
+			ShowNotification("?");
+			habit.ExperiencePointsReward = 0;
+			
+		}
+		else if (id != null)
 		{
 			habit.UserID = user_id;
-			await _habitService.UpdateHabit((int) id, habit);
+			await _habitService.UpdateHabit((int)id, habit);
 			nav.NavigateTo("/habits");
 		}
-		else
+		else 
 		{
 			habit.UserID = user_id;
 			await _habitService.AddHabit(habit);
 			nav.NavigateTo("/habits");
 		}
 
+
+	}
+	public void ShowNotification(string? message)
+	{
+		NotificationMessage = message;
+		StateHasChanged();
 	}
 	protected async override Task OnInitializedAsync()
 	{

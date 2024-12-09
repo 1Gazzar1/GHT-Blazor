@@ -13,7 +13,7 @@
 	transform: translate(-50%, -50%);
 }
 .exp-page {
-    background: linear-gradient(90deg, rgb(59, 30, 84), rgb(212, 190, 228));
+    background: linear-gradient(90deg, rgb(75, 0, 130), rgb(50, 0, 80));
 	overflow: auto;
 	width: 100vw;
 	height: 100vh;
@@ -22,6 +22,9 @@
 	left: 0;
 	text-align : center;
 	color : white;
+}
+.exp-page::-webkit-scrollbar {
+	display: none;
 }
 .exp{
 	color : white;
